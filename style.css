@@ -5,3 +5,8 @@
 .container {
     margin-top: 20px;
 }
+
+.daterange { 
+    right: 40px;
+    position: absolute;
+}
