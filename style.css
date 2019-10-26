@@ -2,11 +2,68 @@
     justify-content: center;
 }
 
+body {
+    margin: 0px; 
+    background-image: url('cityscape.jpg');   
+    background-repeat: no-repeat;
+}
+
 .container {
+    display: flex; 
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
     margin-top: 20px;
+    background: #F8F9FA;
+}
+
+.row {
+    margin-bottom: 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dropdown {
+    display: block;
+    padding: 20px;
+}
+
+#dropdownMenuButton {
+    background: lightgreen;
+    color: darkslategrey;
+    font-family: 'Khula', sans-serif;
+    font-weight: 700;
+}
+
+#divEl {
+    background-color: darkviolet;
+}
+
+#input-value {
+    float: right;
+    text-align: left;
+    width: 100%;
+    margin: 20px;
+    display: block;
 }
 
 .daterange { 
-    right: 40px;
-    position: absolute;
+    display: block;
+    margin: 0;
+    background: green;
+}
+
+.form-label {
+    display: flex; 
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    background: red;
+}
+
+.form-check {
+    position: relative;
+    background: blue;
 }
