@@ -17,6 +17,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
     <script src="script.js"></script>
 </head>
 <body>
@@ -29,31 +30,31 @@
         <div class="row">
             <div class="col">
                 <form>
-                <!--USER SELECT BY CATEGORY DROPDOWN-->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <b>Select a Search Category</b>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button class="dropdown-item" href="#" value="movie title">Movie Title</button>
-                        <button class="dropdown-item" href="#" value="genre">Genre??</button>
-                        <button class="dropdown-item" href="#" value="zip code">Zip Code</button>
-                        <button class="dropdown-item" href="#" value="actor name">Actors</button>
-                        <button class="dropdown-item" href="#" value="director name">Directors</button>
+                    <!--USER SELECT BY CATEGORY DROPDOWN-->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <b>Select a Search Category</b>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item" href="#" value="movie title">Movie Title</button>
+                            <button class="dropdown-item" href="#" value="genre">Genre??</button>
+                            <button class="dropdown-item" href="#" value="zip code">Zip Code</button>
+                            <button class="dropdown-item" href="#" value="actor name">Actors</button>
+                            <button class="dropdown-item" href="#" value="director name">Directors</button>
+                        </div>
                     </div>
-                </div>
-            </form>
-            <!--USER INPUT TEXT-->
-            <form id="input-value">
-                <div class="form-group col-md-6" id="divEl"></div>
-                <!--that button is here like <button>-->
-            </form>
+                </form>
+                <!--USER INPUT TEXT-->
+                <form id="input-value">
+                    <div class="form-group col-md-6" id="divEl"></div>
+                    <!--that button is here like <button>-->
+                </form>
             </div>
             <!--DATE RANGE PICKER-->
             <div class="col">
                 <div class="daterange">
-                <input type="text" name="daterange" value="01/01/2019 - 01/15/2019"/>
-            </div>
+                    <input type="text" name="daterange" value="01/01/2019 - 01/15/2019"/>
+                </div>
             </div>
         </div>
             
