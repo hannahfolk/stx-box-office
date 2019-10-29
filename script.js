@@ -78,10 +78,10 @@ $(document).ready(function() {
     // ==================ZIP CODE===================== //
 
     var proxyURL = 'https://cors-anywhere.herokuapp.com/';
-    var targetURL = 'https://access.opusdata.com/session/create?email=hfolk25@gmail.com&password=opusdatat43';
+    var queryURL = 'https://access.opusdata.com/session/create?email=hfolk25@gmail.com&password=opusdatat43';
 
     $.ajax({
-        url: proxyURL + targetURL,
+        url: proxyURL + queryURL,
         method: "GET"
     })
     .then(response => JSON.parse(response))
@@ -94,9 +94,12 @@ $(document).ready(function() {
         $.ajax({
             url: proxyURL + dataURL,
             method: "GET",
-            headers: {
-                "Authorization": "opusdata " + response.session_id
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", "opusdata " + response.session_id);
             }
+            // headers: {
+            //     "Authorization": "opusdata " + response.session_id
+            // }
         })
         .then(data => JSON.parse(data))
         .then(function(data) {
