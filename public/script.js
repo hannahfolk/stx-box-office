@@ -2,14 +2,49 @@ $(document).ready(function() {
     // Create variables
     var week;
     var dayOfWeek;
+    var movieInput;
+    var numYearsInput;
+    var weekRevInput;
+    var genreInput;
+    var subGenreInput;
+    var limitInput;
+    var genreRevInput;
+
 
     function generateData(event) {
         event.preventDefault();
-        
+
+        if ($("#movie-input").val() !== null && $("#movie-input").val() !== "") {
+            movieInput = $("#movie-input").val();
+        }
+
+        if ($("#num-years-input").val() !== null && $("#num-years-input").val() !== "" && isNaN($("#num-years-input").val()) === false) {
+            numYearsInput = $("#num-years-input").val();
+        }
+
+        if ($("#weekend-revenue-input").val() !== null && $("#weekend-revenue-input").val() !== "" && isNaN($("#weekend-revenue-input").val()) === false) {
+            weekRevInput = $("#weekend-revenue-input").val();
+        }
+
+        if ($("#genre-input").val() !== null && $("#genre-input").val() !== "") {
+            genreInput = $("#genre-input").val();
+        }
+
+        if ($("#genre-revenue-input").val() !== null && $("#genre-revenue-input").val() !== "" && isNaN($("#genre-revenue-input").val()) === false) {
+            genreRevInput = $("#genre-revenue-input").val();
+        }
+
+        // On off toggle button for movies released that weekend
         $.post("/api", {
-            week: week,
-            dayOfWeek: dayOfWeek,
-            blah: "potato"
+            // week: week,
+            // dayOfWeek: dayOfWeek,
+            movieInput: movieInput,
+            numYearsInput: numYearsInput,
+            weekRevInput: weekRevInput,
+            genreInput: genreInput,
+            subGenreInput: subGenreInput,
+            limitInput: limitInput,
+            genreRevInput: genreRevInput
         }).then(function(response) {
             console.log(response);
         });
@@ -30,7 +65,7 @@ $(document).ready(function() {
     };
 
     createDateRange();
-    $("#searchBtn").on("click", generateData);
+    $(".searchBtn").on("click", generateData);
 
     // For movie range:
         // User inputs the weekend that they want using the datepicker
@@ -42,12 +77,14 @@ $(document).ready(function() {
         // otherwise, movie is in chase
     // Ask Omar how to host privately without paying on GitHub
     // Ask Omar how to host in general lol
+        // Does the user need to install node? probably not
     // Ask Omar how to grab data from client-side js and put into server-side js
     // Format data in table in browser
     // If time: create Excel export button, format data in Excel
     // Ask Marie to format the card and make it look pretty
     // Ask Marie to change icons
-    // Ask Marie if she can darken the background when datepicker is open (modal maybe??)
+
+    // If it is opening weekend or not
 
     // Take the user-inputted-weekend
     // Store the week in a variable, like how December 25th is the 52nd or sometimes 51st week of the year
@@ -57,8 +94,8 @@ $(document).ready(function() {
     var day1 = moment("10-11-2019", "MMDDYYYY").format("dddd");
     var blah = moment(week1, "W").subtract(1, "years").format("MMDDYYYY");
 
-    console.log(week1);
-    console.log(day1);
-    console.log(blah);
+    // console.log(week1);
+    // console.log(day1);
+    // console.log(blah);
 
 });
