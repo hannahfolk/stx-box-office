@@ -34,10 +34,13 @@ $(document).ready(function() {
             genreRevInput = $("#genre-revenue-input").val();
         }
 
+        week = moment(start, "MM-DD-YYYY").week().toString();
+        dayOfWeek = moment(start, "MM-DD-YYYY").format("ddd").toString();
+
         // On off toggle button for movies released that weekend
         $.post("/api", {
-            // week: week,
-            // dayOfWeek: dayOfWeek,
+            week: week,
+            dayOfWeek: dayOfWeek,
             movieInput: movieInput,
             numYearsInput: numYearsInput,
             weekRevInput: weekRevInput,
@@ -57,10 +60,6 @@ $(document).ready(function() {
         }, function(start, end, label) {
             start = start.format("MM-DD-YYYY");
             end = end.format("MM-DD-YYYY");
-            week = moment(start, "MM-DD-YYYY").week().toString();
-            dayOfWeek = moment(start, "MM-DD-YYYY").format("ddd").toString();
-            console.log(week);
-            console.log(dayOfWeek);
         });
     };
 

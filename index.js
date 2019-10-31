@@ -14,7 +14,20 @@ app.post("/api", (req, res) => {
     console.log(req.body);
     var userSearchMovie = req.body.movieInput;
     console.log(userSearchMovie);
+    console.log(req.body.movieInput);
     console.log(req.body.genreInput);
+    console.log(req.body.genreInput);
+    console.log(req.body.genreInput);
+    console.log(req.body.genreInput);
+    var week;
+    var dayOfWeek;
+    var movieInput;
+    var numYearsInput;
+    var weekRevInput;
+    var genreInput;
+    var subGenreInput;
+    var limitInput;
+    var genreRevInput;
 
     const axios = require("axios");
     
