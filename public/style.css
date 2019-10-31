@@ -46,7 +46,12 @@ body {
     padding: 10px; 
     min-width: 40px; 
 } 
-  
+
+.dollar { 
+    padding: 10px; 
+    min-width: 40px; 
+}
+
 .input-field { 
     width: 100%; 
     padding: 10px 10px 10px 40px; 
