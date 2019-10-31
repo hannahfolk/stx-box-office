@@ -6,6 +6,7 @@ body {
     margin: 0px; 
     background-image: url('cityscape.jpg');   
     background-repeat: no-repeat;
+    font-family: 'Khula', sans-serif;
 }
 
 .container {
@@ -20,6 +21,7 @@ body {
 
 .col-12 {
     padding: 0;
+
 }
 
 .card-body {
@@ -49,6 +51,7 @@ body {
     width: 100%; 
     padding: 10px 10px 10px 40px; 
     text-align: center;
+    font-family: 'Khula', sans-serif;
 }
 
 .daterange { 
@@ -75,4 +78,14 @@ body {
 
 .toggle.ios .toggle-handle {
     border-radius: 20px;
+}
+
+#frequency {
+    padding: 5px;
+}
+
+.form-check {
+    padding: 2px;
+    margin: 2px;
+    font-family: 'Khula', sans-serif;
 }
