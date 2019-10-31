@@ -43,14 +43,14 @@
                             <a class="nav-link" href="genre.html">Search by Genre</a>
                         </li>
                     </ul>
-                    <form id="input-value">
+                    <form id="input-value" method="post" action="/api">
                         <!--DATE RANGE PICKER-->
                         <div class="daterange">
                             <input type="text" name="daterange" id="datepicker"/>
                         </div>
                         <div class="form-group input-icons">
                             <i class="fas fa-search icon"></i>
-                            <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie">
+                            <input name="movieInput" type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie">
                         </div>
                         <!--FREQUENCY OF BOX OFFICE--> <!--only takes Daily, Weekend, and Week-->
                         <div id="frequency">Please choose a Box Office frequency: </div>
@@ -70,7 +70,7 @@
                             <input class="form-check-input" type="radio" name="exampleRadios" id="yearly" value="Yearly">
                             <label class="form-check-label" for="yearly">Total</label>
                         </div>
-                        <button type="submit" class="btn btn-primary searchBtn">Search</button>
+                        <button type="submit" class="btn btn-primary" id="searchBtnMovie">Search</button>
                     </form>
                 </div>  
             </div>
