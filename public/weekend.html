@@ -45,9 +45,11 @@
                     </ul>
                     <!--Marie: overall for this form could you make the layout pretty?-->
                     <form id="input-value">
+
                         <!--DATE RANGE PICKER-->
                         <div class="flatpickr">
-                            <input type="text" class="datepicker form-control" data-input>
+                            <input type="text" class="datepicker form-control" id="weekend-date-range" data-input>
+
                         </div>
                         <!--Marie: can you please choose an icon for number of years-->
                         <div class="form-group input-icons">
@@ -62,7 +64,9 @@
                         <!--on and off needs to be changed to yes and no-->
                         <div class="form-group">
                             <label for="toggle">Would you like to only see movies released that weekend?</label>
+
                             <input type="checkbox" id="toggle-yes-no" checked data-toggle="toggle" data-style="ios" data-on="Yes" data-off="No">
+
                         </div>
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>

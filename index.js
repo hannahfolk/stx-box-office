@@ -12,21 +12,25 @@ app.use(express.json())
 
 app.post("/api", (req, res) => {
     console.log(req.body);
-    var country = "United States";
     var week = req.body.week;
     var dayOfWeek = req.body.dayOfWeek;
-    var startDate = "2019-01-27";
-    var endDate = "2019-10-29";
+    var movieStartDate = req.body.movieStartDate;
+    var movieEndDate = req.body.movieEndDate;
+    var weekendStartDate = req.body.weekendStartDate;
+    var weekendEndDate = req.body.weekendEndDate; 
+    var genreStartDate = req.body.genreStartDate;
+    var genreEndDate = req.body.genreEndDate;        
     var movieInput = req.body.movieInput;
     var boxFrequency = req.body.boxFrequency;
     var numYearsInput = req.body.numYearsInput;
     var weekRevInput = req.body.weekRevInput;
     var genreInput = req.body.genreInput;
-    var subGenre;
     var subGenreInput = req.body.subGenreInput;
     var limitInput = req.body.limitInput;
     var genreRevInput = req.body.genreRevInput;
 
+    var country = "United States";
+    var subGenre;
     var movieBox;
     var movieGenre;
     var movieRange;
