@@ -14,14 +14,16 @@ body {
 }
 
 .row {
-    margin-bottom: 50px;
     display: flex;
     flex-wrap: wrap;
 }
 
 .col-12 {
     padding: 0;
+}
 
+.card {
+    margin-bottom: 50px;
 }
 
 .card-body {
@@ -81,11 +83,22 @@ body {
 }
 
 #frequency {
-    padding: 5px;
+    padding: 5px 5px 5px 0;
+    margin: 0 0 10px 0;
+}
+
+#chooseFrequency {
+    margin-left: -15px;
+    margin-bottom: 5px;
 }
 
 .form-check {
     padding: 2px;
     margin: 2px;
     font-family: 'Khula', sans-serif;
+}
+
+.datepicker {
+    max-width: 300px;
+    margin-bottom: 20px;
 }
