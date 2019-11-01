@@ -19,7 +19,6 @@ $(document).ready(function() {
 
     var today = moment().format("MM/DD/YYYY"); // grabs today's date
     $(".datepicker").attr("placeholder", today + " to " + today); // puts today's date in the datepicker
-    $(".datepicker").attr("value", ""); // sets the value of the datepicker to an empty string in case user doesn't use the date range
 
     function generateData(event) {
         event.preventDefault();
@@ -29,7 +28,7 @@ $(document).ready(function() {
         if ($("#movie-input").val() !== null && $("#movie-input").val() !== "") {
             movieInput = $("#movie-input").val();
             $("#movie-input").val("");
-        }
+        };
 
         // Stores the box office frequency
         if ($("#daily").is(":checked")) {
@@ -37,9 +36,7 @@ $(document).ready(function() {
         } else if ($("#weekend").is(":checked")) {
             boxFrequency = $("#weekend").val();
         } else if ($("#weekly").is(":checked")) {
-            boxFrequency= $("#weekly").val();
-        } else if ($("#total").is(":checked")) {
-            boxFrequency = $("#total").val();
+            boxFrequency = $("#weekly").val();
         };
         
         // ================ stores input values referencing WEEKEND.HTML ================== //
@@ -55,14 +52,14 @@ $(document).ready(function() {
             $("#weekend-revenue-input").val("");
         };
 
-        console.log($(".datepicker").val());
+        // console.log($(".datepicker").val());
         // if ($(""))
         // week = moment(, "MM-DD-YYYY").week().toString();
         // dayOfWeek = moment(start, "MM-DD-YYYY").format("ddd").toString();
         
         //@Eddie store on/off toggle button for movies released that weekend
         
-        // =================== stores input values referenceing GENRE.HTML ================== //
+        // =================== stores input values referencing GENRE.HTML ================== //
         // Stores the user-inputted genre
         if ($("#genre-input").val() !== null && $("#genre-input").val() !== "") {
             genreInput = $("#genre-input").val();
@@ -76,7 +73,7 @@ $(document).ready(function() {
         };
 
         // Stores the user-inputted number of movies they would like returned
-        if ($("#limit-input").val() !== null && $("#limit-input").val() !== "") {
+        if ($("#limit-input").val() !== null && $("#limit-input").val() !== "" && isNaN($("#limit-input").val()) === false) {
             limitInput = $("#limit-input").val();
             $("#limit-input").val("");
         };
@@ -93,17 +90,68 @@ $(document).ready(function() {
             boxFrequency: boxFrequency,
             numYearsInput: numYearsInput,
             weekRevInput: weekRevInput,
+            week: week,
+            dayOfWeek: dayOfWeek,
             genreInput: genreInput,
             subGenreInput: subGenreInput,
             limitInput: limitInput,
-            genreRevInput: genreRevInput,
-            week: week,
-            dayOfWeek: dayOfWeek
+            genreRevInput: genreRevInput
         }).then(function(response) {
             console.log(response);
+            console.log(response.movies);
+
+            // Empty the responseCard
+            $(".responseCard").empty();
+
+            // Create the necessary elements for the responseCard
+            var responseCardDiv = $("<div>");
+            var responseCardBody = $("<div>");
+            var tableEl = $("<table>");
+            var tHeadEl = $("<thead>");
+            var tBodyEl = $("<tbody>");
+            var headTrEl = $("<tr>");
+            
+            for (var i = 0; i < response.colTitles.length; i++) {
+                var headThEl = $("<th>");
+                headTrEl.attr("scope", "col");
+                headThEl.text(response.colTitles[i]);
+                headTrEl.append(headThEl);
+            };
+
+            for (var i = 0; i < response.movies.length; i++) {
+                var bodyTrEl = $("<tr>");
+                var bodyThEl = $("<th>");
+                var prodBudgTdEl = $("<td>");
+                var domBoxOffTdEl = $("<td>");
+                var intBoxOffTdEl = $("<td>");
+
+                bodyThEl.attr("scope", "row");
+
+                bodyThEl.text(response.movies[i].movieTitle);
+                prodBudgTdEl.text("$" + response.movies[i].productionBudget);
+                domBoxOffTdEl.text("$" + response.movies[i].domesticBoxOffice);
+                intBoxOffTdEl.text("$" + response.movies[i].internationalBoxOffice);
+
+                tBodyEl.append(bodyTrEl);
+                bodyTrEl.append(bodyThEl);
+                bodyTrEl.append(prodBudgTdEl);
+                bodyTrEl.append(domBoxOffTdEl);
+                bodyTrEl.append(intBoxOffTdEl);
+            };
+
+            responseCardDiv.attr("class", "card col-12");
+            responseCardBody.attr("class", "card-body");
+            tableEl.attr("class", "table");
+
+            $(".responseCard").append(responseCardDiv);
+            responseCardDiv.append(responseCardBody);
+            responseCardBody.append(tableEl);
+            tableEl.append(tHeadEl);
+            tableEl.append(tBodyEl);
+            tHeadEl.append(headTrEl);
+
         });
 
-        console.log($(".datepicker").val());
     };
 
     // Opens the date range picker and stores the user-selected date range
@@ -120,7 +168,7 @@ $(document).ready(function() {
         // Empty the div so that you don't end up multiple datepickers
         $("#movieDateDiv").empty();
 
-        if ($(this).val() === "Daily" || $(this).val() === "Weekend" || $(this).val() === "Weekly") {
+        if ($(this).val() === "Daily" || $(this).val() === "Weekend" || $(this).val() === "Week") {
             var pEl = $("<p>");
             var datepickerEl = $("<input>");
 

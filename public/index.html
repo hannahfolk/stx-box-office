@@ -51,7 +51,7 @@
                         <!--FREQUENCY OF BOX OFFICE--> <!--only takes Daily, Weekend, and Week-->
                         <div class="row" id="frequency">
                             <div class="col">
-                                <p id="chooseFrequency">Please choose a Box Office frequency:</p>
+                                <p id="chooseFrequency">Please choose a Box Office frequency, otherwise default option is summary:</p>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radios" id="daily" value="Daily">
                                     <label class="form-check-label" for="daily">Daily</label>
@@ -61,12 +61,8 @@
                                     <label class="form-check-label" for="weekly">Weekend</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="radios" id="weekly" value="Weekly">
-                                    <label class="form-check-label" for="monthly">Weekly</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="radios" id="total" value="Total">
-                                    <label class="form-check-label" for="yearly">Total</label>
+                                    <input class="form-check-input" type="radio" name="radios" id="weekly" value="Week">
+                                    <label class="form-check-label" for="weekly">Weekly</label>
                                 </div>
                             </div>
                             <!--DATE RANGE PICKER-->
@@ -78,8 +74,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="card col-12">
+        <div class="row responseCard">
+            <!-- <div class="card col-12">
                 <div class="card-body">
                     <table class="table">
                         <thead>
@@ -130,7 +126,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
             </div>
         </div>    
     </div>
