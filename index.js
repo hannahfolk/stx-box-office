@@ -12,59 +12,80 @@ app.use(express.json())
 
 app.post("/api", (req, res) => {
     console.log(req.body);
-    var userSearchMovie = req.body.movieInput;
-    console.log(userSearchMovie);
-    console.log(req.body.movieInput);
-    console.log(req.body.genreInput);
-    console.log(req.body.genreInput);
-    console.log(req.body.genreInput);
-    console.log(req.body.genreInput);
-    var week;
-    var dayOfWeek;
-    var movieInput;
-    var numYearsInput;
-    var weekRevInput;
-    var genreInput;
-    var subGenreInput;
-    var limitInput;
-    var genreRevInput;
+    var country = "United States";
+    var week = req.body.week;
+    var dayOfWeek = req.body.dayOfWeek;
+    var startDate = "2019-01-27";
+    var endDate = "2019-10-29";
+    var movieInput = req.body.movieInput;
+    var boxFrequency = req.body.boxFrequency;
+    var numYearsInput = req.body.numYearsInput;
+    var weekRevInput = req.body.weekRevInput;
+    var genreInput = req.body.genreInput;
+    var subGenre;
+    var subGenreInput = req.body.subGenreInput;
+    var limitInput = req.body.limitInput;
+    var genreRevInput = req.body.genreRevInput;
 
+    var movieBox;
+    var movieGenre;
+    var movieRange;
+    var movieSummary;
+    var movieDateFilter;
+
+    console.log(week);
+    console.log(dayOfWeek);
+    console.log(movieInput);
+    console.log(boxFrequency);
+    console.log(numYearsInput);
+    console.log(weekRevInput);
+    console.log(genreInput);
+    console.log(subGenreInput);
+    console.log(limitInput);
+    console.log(genreRevInput);
+    
     const axios = require("axios");
     
     axios.get("https://access.opusdata.com/session/create?email=hfolk25@gmail.com&password=opusdatat43")
     .then(function (response) {
-
-        var country = "United States";
-        var userSearch = "Titanic";
-        var startDate = "2019-01-27";
-        var endDate = "2019-10-29";
-        var limit = "1";
-        var boxFrequency = "Daily";
+        var dataURL;
         // var apiCall;
-
-        var subGenreInput = "super"; // user input,
-        // if user input for subGenre is empty, then subgenre will be emptied out
-        var subGenre;
-        if (subGenreInput !== null && subGenreInput !== "") {
+        if (subGenreInput !== "") {
             subGenre = "%20AND%20work_keyword_od_name%20like%20(%22" + subGenreInput + "%%22)";
         } else {
             subGenre = "";
         };
-        var movieGenre = "/movie_extended_summaries?merge=movie_genre,country,work_keyword&filter=movie_genre_od_name%20like%20(%22" + userSearch + "%%22)%20AND%20country_od_name%20like%20(%22" + country + "%%22)%20AND%20release_date%20between%20%22" + startDate + "%22%20AND%20%22" + endDate + "%22" + subGenre + "&limit=" + limit;
+
+        var movieGenre = "/movie_extended_summaries?merge=movie_genre,country,work_keyword&filter=movie_genre_od_name%20like%20(%22" + genreInput + "%%22)%20AND%20country_od_name%20like%20(%22" + country + "%%22)%20AND%20release_date%20between%20%22" + startDate + "%22%20AND%20%22" + endDate + "%22" + subGenre + "&limit=" + limitInput;
 
         var movieRange = "/movie_theatrical_chart_entries?merge=country&filter=chart_date%20between%20%22" + startDate + "%22%20AND%20%22" + endDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
+
+        // =================== FOR THE MOVIE TAB ===================== //
+        if (movieInput !== "") {
+          // If user selects a date range (if boxFrequency === "daily," "weekend," or "weekly"), add movieDateFilter to movieBox and use movieBox
+          if (startDate !== "") {
+            // Set the movieDateFilter using start and end date
+            movieDateFilter = "%20AND%20chart_date%20between%20%22" + startDate + "%22%20AND%20%22" + endDate + "%22";
+
+            // Add the movieDateFilter into the movieBox URI
+            movieBox = "/movie_theatrical_chart_entries?filter=movie_display_name%20like%20(%22" + movieInput + "%%22)%20AND%20movie_chart_type_od_name=%22" + boxFrequency + "%22" + movieDateFilter;
+
+            dataURL = "http://" + response.data.server + movieBox;
+          } // If boxFrequency === "Total", use movieSummary.
+          else {
+            movieSummary = "/movie_financial_summaries?filter=movie_display_name%20like%20(%22" + movieInput + "%%22)";
+
+            dataURL = "http://" + response.data.server + movieSummary;
+          };
+        };
+
+        // =================== FOR THE WEEKEND TAB ===================== //
         
-        // If user selects a date range:
-        var movieDateFilter = "%20AND%20chart_date%20between%20%22" + startDate + "%22%20AND%20%22" + endDate + "%22";
-        // If user selects "Summary":
-        var movieSummary = "/movie_financial_summaries?filter=movie_display_name%20like%20(%22" + userSearch + "%%22)";
-
-        var movieBox = "/movie_theatrical_chart_entries?filter=movie_display_name%20like%20(%22" + userSearch + "%%22)%20AND%20movie_chart_type_od_name=%22" + boxFrequency + "%22" + movieDateFilter;
-
-        // If user is in tab "movie", apiCall = movieBox.
         // If user is in tab "genre", apiCall = movieGenre.
+
+
         // If user is in tab "weekend", apiCall = movieRange.
-        const dataURL = "http://" + response.data.server + movieBox;
+        
         const options = {
         headers: {"Authorization": "opusdata " + response.data.session_id}
         };
