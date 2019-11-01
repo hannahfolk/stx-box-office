@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>STX Entertainment | Movie Title</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link href="https://fonts.googleapis.com/css?family=Khula&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
@@ -17,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://kit.fontawesome.com/c58f8cf9af.js" crossorigin="anonymous"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="script.js"></script>
@@ -49,25 +49,31 @@
                             <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie">
                         </div>
                         <!--FREQUENCY OF BOX OFFICE--> <!--only takes Daily, Weekend, and Week-->
-                        <div id="frequency">Please choose a Box Office frequency: </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="daily" value="Daily">
-                            <label class="form-check-label" for="daily">Daily</label>
+
+                        <div class="row" id="frequency">
+                            <div class="col">
+                                <p id="chooseFrequency">Please choose a Box Office frequency:</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radios" id="daily" value="Daily">
+                                    <label class="form-check-label" for="daily">Daily</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radios" id="weekend" value="Weekend">
+                                    <label class="form-check-label" for="weekly">Weekend</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radios" id="weekly" value="Week">
+                                    <label class="form-check-label" for="weekly">Weekly</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radios" id="total" value="Total">
+                                    <label class="form-check-label" for="yearly">Total</label>
+                                </div>
+                            </div>
+                            <!--DATE RANGE PICKER-->
+                            <div class="col flatpickr" id="movieDateDiv"></div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="weekend" value="Weekend">
-                            <label class="form-check-label" for="weekend">Weekend</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="week" value="Week">
-                            <label class="form-check-label" for="weekly">Week</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="total" value="Total">
-                            <label class="form-check-label" for="total">Total</label>
-                        </div>
-                        <!--DATE RANGE PICKER-->
-                        <div class="daterange">
+
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>
                 </div>  

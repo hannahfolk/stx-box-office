@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>STX Entertainment | Weekend</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link href="https://fonts.googleapis.com/css?family=Khula&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
@@ -17,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://kit.fontawesome.com/c58f8cf9af.js" crossorigin="anonymous"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="script.js"></script>
@@ -45,14 +45,11 @@
                     </ul>
                     <!--Marie: overall for this form could you make the layout pretty?-->
                     <form id="input-value">
+
                         <!--DATE RANGE PICKER-->
-                        <!--Marie: can you please set this to just one month so that the user can choose one weekend-->
-                        <!--Datepicker website is https://bootstrap-datepicker.readthedocs.io/en/latest/-->
-                        <!--or https://www.daterangepicker.com/-->
-                        <div class="input-group input-daterange">
-                            <input type="text" class="form-control" value="">
-                            <div class="input-group-addon">to</div>
-                            <input type="text" class="form-control" value="">
+                        <div class="flatpickr">
+                            <input type="text" class="datepicker form-control" id="weekend-date-range" data-input>
+
                         </div>
                         <!--Marie: can you please choose an icon for number of years-->
                         <div class="form-group input-icons">
@@ -67,7 +64,9 @@
                         <!--on and off needs to be changed to yes and no-->
                         <div class="form-group">
                             <label for="toggle">Would you like to only see movies released that weekend?</label>
-                            <input type="checkbox" id="toggle-yes-no" data-on="Yes" data-off="No" checked data-toggle="toggle" data-style="ios">
+
+                            <input type="checkbox" id="toggle-yes-no" checked data-toggle="toggle" data-style="ios" data-on="Yes" data-off="No">
+
                         </div>
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>
