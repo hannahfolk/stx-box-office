@@ -17,6 +17,7 @@ $(document).ready(function() {
     var weekendRange =""; // range selected by the user
     var weekendStartDate = ""; // start date for the weekend selected
     var weekendEndDate = ""; // end date for the weekend selected
+    var weekendYesNoChecked = "";
 
     // ================== Variables for GENRE.HTML ================== //
     var genreInput = ""; // User-inputted genre
@@ -26,6 +27,7 @@ $(document).ready(function() {
     var genreDateRange = "";
     var genreStartDate = "";
     var genreEndDate = ""; 
+    var genreYesNoChecked = "";
 
     //==================== Other Variables ==================// 
 
@@ -50,17 +52,13 @@ $(document).ready(function() {
         } else if ($("#weekend").is(":checked")) {
             boxFrequency = $("#weekend").val();
         } else if ($("#weekly").is(":checked")) {
-            boxFrequency= $("#weekly").val();
+            boxFrequency = $("#weekly").val();
         };
         
         if ($("#movie-date-range").val() != null && $("#movie-date-range").val() !== "") {
-            console.log("hello");
             movieDateRange = $("#movie-date-range").val(); // returns value in format of "YYYY-MM-DD to YYY-MM-DD"
             movieStartDate = movieDateRange.substring(0, 10); // gets start date as "YYYY-MM-DD"
             movieEndDate = movieDateRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
-            $("#movie-date-range").val("");
-            console.log(movieStartDate + "#movie-date-range");
-            console.log(movieEndDate + "#movie-date-range");
         };
 
         // ================ stores input values referencing WEEKEND.HTML ================== //
@@ -74,9 +72,8 @@ $(document).ready(function() {
             weekendRange = $("#weekend-date-range").val(); // returns value in format of "YYYY-MM-DD to YYY-MM-DD"
             weekendStartDate = weekendRange.substring(0, 10); // gets start date as "YYYY-MM-DD"
             weekendEndDate = weekendRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
-            $("#weekend-date-range").val("");
-            console.log(weekendStartDate + "weekend-date-range")
-            console.log(weekendEndDate + "weekend-date-range")
+            week = moment(weekendStartDate, "YYYY-MM-DD").week().toString(); // gets what day of the week it is
+            dayOfWeek = moment(weekendStartDate, "YYYY-MM-DD").format("ddd").toString();
         };
 
         // Stores the minimum amount of revenue the user wants to see in movies returned
@@ -86,12 +83,14 @@ $(document).ready(function() {
             $("#weekend-revenue-input").val("");
         };
 
-        // if ($(""))
-        // week = moment(start, "MM-DD-YYYY").week().toString();
-        // dayOfWeek = moment(start, "MM-DD-YYYY").format("ddd").toString();
-        
-        //@Eddie store on/off toggle button for movies released that weekend
-        
+        if ($("#weekend-toggle-yes-no").is(":checked")) {
+            weekendYesNoChecked = "Yes";
+            console.log("Yes");
+        } else {
+            weekendYesNoChecked = "No";
+            console.log("No");
+        };
+
         // =================== stores input values referencing GENRE.HTML ================== //
         // Stores the user-inputted genre
         if ($("#genre-input").val() !== null && $("#genre-input").val() !== "") {
@@ -118,35 +117,39 @@ $(document).ready(function() {
         };
 
         if ($("#genre-date-range").val() != null && $("#genre-date-range").val() !== "") {
-            console.log("hello");
+        
             genreDateRange = $("#genre-date-range").val(); // returns value in format of "YYYY-MM-DD to YYY-MM-DD"
             genreStartDate = genreDateRange.substring(0, 10); // gets start date as "YYYY-MM-DD"
             genreEndDate = genreDateRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
-            $("#genre-date-range").val("");
-            console.log(genreStartDate + "genre-date-range");
-            console.log(genreEndDate + "genre-date-range");
         };
 
-        // @Eddie: On off toggle button for movies released that weekend
+        if ($("#genre-toggle-yes-no").is(":checked")) {
+            genreYesNoChecked = "Yes";
+            console.log("Yes");
+        } else {
+            genreYesNoChecked = "No";
+            console.log("No");
+        };
 
         $.post("/api", {
-            week: week,
-            dayOfWeek: dayOfWeek,
             movieStartDate: movieStartDate,
             movieEndDate: movieEndDate,
-            weekendStartDate: weekendStartDate,
-            weekendEndDate: weekendEndDate,
-            genreStartDate: genreStartDate,
-            genreEndDate: genreEndDate,
             movieInput: movieInput,
             boxFrequency: boxFrequency,
             numYearsInput: numYearsInput,
             weekRevInput: weekRevInput,
+            weekendStartDate: weekendStartDate,
+            weekendEndDate: weekendEndDate,
+            week: week,
+            dayOfWeek: dayOfWeek,
+            weekendYesNoChecked: weekendYesNoChecked,
             genreInput: genreInput,
             subGenreInput: subGenreInput,
             limitInput: limitInput,
             genreRevInput: genreRevInput,
-            
+            genreStartDate: genreStartDate,
+            genreEndDate: genreEndDate,
+            genreYesNoChecked: genreYesNoChecked
         }).then(function(response) {
             console.log(response);
         });
