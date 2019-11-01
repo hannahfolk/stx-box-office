@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs nav-fill">
                         <li class="nav-item">
-                            <a class="nav-link" href="movie.html">Search by Movie Title</a>
+                            <a class="nav-link" href="index.html">Search by Movie Title</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="weekend.html">Search by Weekend</a>
@@ -49,8 +49,10 @@
                         <!--Marie: can you please set this to just one month so that the user can choose one weekend-->
                         <!--Datepicker website is https://bootstrap-datepicker.readthedocs.io/en/latest/-->
                         <!--or https://www.daterangepicker.com/-->
-                        <div class="daterange">
-                            <input type="text" name="daterange" id="datepicker"/>
+                        <div class="input-group input-daterange">
+                            <input type="text" class="form-control" value="">
+                            <div class="input-group-addon">to</div>
+                            <input type="text" class="form-control" value="">
                         </div>
                         <!--Marie: can you please choose an icon for number of years-->
                         <div class="form-group input-icons">
@@ -65,7 +67,7 @@
                         <!--on and off needs to be changed to yes and no-->
                         <div class="form-group">
                             <label for="toggle">Would you like to only see movies released that weekend?</label>
-                            <input type="checkbox" id="toggle-yes-no" checked data-toggle="toggle" data-style="ios">
+                            <input type="checkbox" id="toggle-yes-no" data-on="Yes" data-off="No" checked data-toggle="toggle" data-style="ios">
                         </div>
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>

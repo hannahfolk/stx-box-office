@@ -1,43 +1,74 @@
 $(document).ready(function() {
-    // Create variables
-    var week;
-    var dayOfWeek;
-    var movieInput;
-    var numYearsInput;
-    var weekRevInput;
-    var genreInput;
-    var subGenreInput;
-    var limitInput;
-    var genreRevInput;
-
-
+    var movieInput = "";
+    var boxFrequency = "";
+    var numYearsInput = "";
+    var weekRevInput = "";
+    var genreInput = "";
+    var subGenreInput = "";
+    var limitInput = "";
+    var genreRevInput = ""; 
+    var week = "";
+    var dayOfWeek ="";
     function generateData(event) {
         event.preventDefault();
 
+//================== stores input values referencing INDEX.HTML ==================//
+
         if ($("#movie-input").val() !== null && $("#movie-input").val() !== "") {
-            movieInput = $("#movie-input").val();
+            movieInput = $("#movie-input").val().trim();
+            $("#movie-input").val("");
         }
 
+        if ($("#daily").checked) {
+            boxFrequency = $("#daily").val();
+            console.log("hello");
+        }
+
+        if ($("#weekend").checked) {
+            boxFrequency = $("#weekend").val();
+        }
+
+        if ($("#week").checked) {
+            boxFrequency= $("#week").val();
+        }
+
+        if ($("#total").checked) {
+            boxFrequency = $("#total").val();
+        }
+
+//================ stores input values referencing WEEKEND.HTML ==================
+
         if ($("#num-years-input").val() !== null && $("#num-years-input").val() !== "" && isNaN($("#num-years-input").val()) === false) {
-            numYearsInput = $("#num-years-input").val();
+            numYearsInput = $("#num-years-input").val().trim();
+            $("#num-years-input").val("");
         }
 
         if ($("#weekend-revenue-input").val() !== null && $("#weekend-revenue-input").val() !== "" && isNaN($("#weekend-revenue-input").val()) === false) {
-            weekRevInput = $("#weekend-revenue-input").val();
+            weekRevInput = $("#weekend-revenue-input").val().trim();
+            $("#weekend-revenue-input").val("");
         }
 
-        if ($("#genre-input").val() !== null && $("#genre-input").val() !== "") {
-            genreInput = $("#genre-input").val();
+        if ($())
+
+//@Eddie store on/off toggle button for movies released that weekend
+
+
+//=================== stores input values referenceing GENRE.HTML ==================     
+
+
+        if ($("#genre-input").val() !== null && $("#genre-input").val().trim() !== "") {
+            genreInput = $("#genre-input").val().trim();
+            $("#genre-input").val("");
         }
 
         if ($("#genre-revenue-input").val() !== null && $("#genre-revenue-input").val() !== "" && isNaN($("#genre-revenue-input").val()) === false) {
-            genreRevInput = $("#genre-revenue-input").val();
+            genreRevInput = $("#genre-revenue-input").val().trim();
+            $("#genre-revenue-input").val("");
         }
 
         week = moment(start, "MM-DD-YYYY").week().toString();
         dayOfWeek = moment(start, "MM-DD-YYYY").format("ddd").toString();
-
-        // On off toggle button for movies released that weekend
+        
         $.post("/api", {
             week: week,
             dayOfWeek: dayOfWeek,
@@ -47,24 +78,23 @@ $(document).ready(function() {
             genreInput: genreInput,
             subGenreInput: subGenreInput,
             limitInput: limitInput,
-            genreRevInput: genreRevInput
+            genreRevInput: genreRevInput,
+            boxFrequency: boxFrequency,
         }).then(function(response) {
             console.log(response);
         });
     };
 
     // Opens the date range picker and stores the user-selected date range
-    function createDateRange() {
-        $("input[name=\"daterange\"]").daterangepicker({
-          opens: "right"
-        }, function(start, end, label) {
-            start = start.format("MM-DD-YYYY");
-            end = end.format("MM-DD-YYYY");
-        });
-    };
+        
 
-    createDateRange();
+    var today = moment().format("MM-DD-YYYY");
+    
     $(".searchBtn").on("click", generateData);
+
+
+   var startDate = $('#daterange').data('daterangepicker').getStartDate();
+  console.log(startDate);
 
     // For movie range:
         // User inputs the weekend that they want using the datepicker
@@ -98,3 +128,6 @@ $(document).ready(function() {
     // console.log(blah);
 
 });
+
+
+// name depend weeker. 
