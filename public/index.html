@@ -46,27 +46,23 @@
                     <form id="input-value">
                         <div class="form-group input-icons">
                             <i class="fas fa-search icon"></i>
-                            <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie">
+                            <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie without ', &, or :, etc">
                         </div>
                         <!--FREQUENCY OF BOX OFFICE--> <!--only takes Daily, Weekend, and Week-->
                         <div class="row" id="frequency">
                             <div class="col">
-                                <p id="chooseFrequency">Please choose a Box Office frequency:</p>
+                                <p id="chooseFrequency">Please choose a Box Office frequency, otherwise default option is summary:</p>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radios" id="daily" value="Daily">
                                     <label class="form-check-label" for="daily">Daily</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radios" id="weekend" value="Weekend">
-                                    <label class="form-check-label" for="weekly">Weekend</label>
+                                    <label class="form-check-label" for="weekend">Weekend</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radios" id="weekly" value="Week">
                                     <label class="form-check-label" for="weekly">Weekly</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="radios" id="total" value="Total">
-                                    <label class="form-check-label" for="yearly">Total</label>
                                 </div>
                             </div>
                             <!--DATE RANGE PICKER-->
@@ -78,61 +74,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="card col-12">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Movie Name</th>
-                                <th scope="col">Genre</th>
-                                <th scope="col">Daily</th>
-                                <th scope="col">Weekend</th>
-                                <th scope="col">Week</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Theater Count</th>
-                                <th scope="col">Days in Release</th>
-                                <th scope="col">Tickets Sold</th>
-                                <th scope="col">Production Studio</th>
-                                <th scope="col">Production Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>    
+        <div class="row responseCard"></div>   
     </div>
 </body>
 </html>
