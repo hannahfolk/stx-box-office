@@ -77,7 +77,6 @@ app.post("/api", (req, res) => {
 
             console.log(dataURL);
             axios.get(dataURL, options).then(function(data) {
-              console.log(data.data);
                 for (var i = 0; i < data.data.length; i++) {
 
                   var responseInfos = [
@@ -144,14 +143,10 @@ app.post("/api", (req, res) => {
 
           dataURL = "http://" + response.data.server + movieRange;
 
-          // =================== COME BACK LATER ===================== //
           console.log(dataURL);
           axios.get(dataURL, options).then(function(data) {
-            // console.log(data.data);
             for (var i = 0; i < data.data.length; i++) {
               var days = [];
-
-            //  ===============EDDIE WORK IN THIS AREA =======================// 
 
               for (var j = 0; j < data.data.length; j++){
                 if (data.data[i].odid === data.data[j].odid) {
@@ -176,7 +171,6 @@ app.post("/api", (req, res) => {
                   };
                 };
               };
-              // ================ DONT WORK AFTER THIS ========================//
               
               if (data.data[i].total_revenue > weekRevInput) {
                 movies.push(movie);

@@ -49,7 +49,6 @@
                             <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie without ', &, or :, etc">
                         </div>
                         <!--FREQUENCY OF BOX OFFICE--> <!--only takes Daily, Weekend, and Week-->
-
                         <div class="row" id="frequency">
                             <div class="col">
                                 <p id="chooseFrequency">Please choose a Box Office frequency, otherwise default option is summary:</p>
@@ -59,7 +58,7 @@
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radios" id="weekend" value="Weekend">
-                                    <label class="form-check-label" for="weekly">Weekend</label>
+                                    <label class="form-check-label" for="weekend">Weekend</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="radios" id="weekly" value="Week">
@@ -69,15 +68,13 @@
                             <!--DATE RANGE PICKER-->
                             <div class="col flatpickr" id="movieDateDiv"></div>
                         </div>
-
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>
                 </div>  
             </div>
         </div>
 
-        <div class="row responseCard"></div>
-        </div>    
+        <div class="row responseCard"></div>   
     </div>
 </body>
 </html>

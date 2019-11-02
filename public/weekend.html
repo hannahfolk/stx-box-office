@@ -43,30 +43,22 @@
                             <a class="nav-link" href="genre.html">Search by Genre</a>
                         </li>
                     </ul>
-                    <!--Marie: overall for this form could you make the layout pretty?-->
                     <form id="input-value">
-
                         <!--DATE RANGE PICKER-->
                         <div class="flatpickr">
                             <input type="text" class="datepicker form-control" id="weekend-date-range" data-input>
-
                         </div>
-                        <!--Marie: can you please choose an icon for number of years-->
                         <div class="form-group input-icons">
                             <i class="fas fa-search icon"></i>
                             <input type="text" class="form-control input-field text-left" id="num-years-input" placeholder="Enter number of years to be returned">
                         </div>
                         <div class="form-group input-icons">
                             <i class="fas fa-search icon"></i>
-                            <!--Marie: can you help us think of a good placeholder along the lines of "Do you want to filter by minimum revenue?," that isn't a yes or no question?-->
                             <input type="text" class="form-control input-field text-left" id="weekend-revenue-input" placeholder="Search movies with XX revenue and higher only, ex. 1000000">
                         </div>
-                        <!--on and off needs to be changed to yes and no-->
                         <div class="form-group">
-                            <label for="toggle">Would you like to only see movies <b>released</b> that weekend?</label>
-
-                            <input type="checkbox" id="toggle-yes-no" checked data-toggle="toggle" data-style="ios" data-on="Yes" data-off="No">
-
+                            <label for="toggle">Would you like to only see movies released that weekend?</label>
+                            <input type="checkbox" id="weekend-toggle-yes-no" checked data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios">
                         </div>
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>
@@ -74,84 +66,7 @@
             </div>
         </div>
 
-        <div class="row responseCard">
-            <!-- <div class="card col-12">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Year</th>
-                                <th scope="col">Movie Name</th>
-                                <th scope="col">Wed Revenue</th>
-                                <th scope="col">Thu Revenue</th>
-                                <th scope="col">Fri Revenue</th>
-                                <th scope="col">Sat Revenue</th>
-                                <th scope="col">Sun Revenue</th>
-                                <th scope="col">Total Weekend Revenue</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row" rowspan="3">2019</th>
-                                <td>Joker</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                            </tr>
-                            <tr>
-                                <td>Joker</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                            </tr>
-                            <tr>
-                                <td>Joker</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" rowspan="3">2018</th>
-                                <td>Joker</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                            </tr>
-                            <tr>
-                                <td>Joker</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                            </tr>
-                            <tr>
-                                <td>Joker</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> -->
-            </div>
-        </div>
+        <div class="row responseCard"></div>
     </div>
 </body>
 </html>
