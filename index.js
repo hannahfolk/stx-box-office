@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const util = require("util");
 
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 app.use(express.urlencoded({
     extended: true
