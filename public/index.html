@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>STX Entertainment | Movie Title</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link href="https://fonts.googleapis.com/css?family=Khula&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
@@ -17,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://kit.fontawesome.com/c58f8cf9af.js" crossorigin="anonymous"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="script.js"></script>
@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs nav-fill">
                         <li class="nav-item">
-                            <a class="nav-link active" href="movie.html">Search by Movie Title</a>
+                            <a class="nav-link active" href="index.html">Search by Movie Title</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="weekend.html">Search by Weekend</a>
@@ -43,94 +43,38 @@
                             <a class="nav-link" href="genre.html">Search by Genre</a>
                         </li>
                     </ul>
-                    <form id="input-value" method="post" action="/api">
-                        <!--DATE RANGE PICKER-->
-                        <div class="daterange">
-                            <input type="text" name="daterange" id="datepicker"/>
-                        </div>
+                    <form id="input-value">
                         <div class="form-group input-icons">
                             <i class="fas fa-search icon"></i>
-                            <input name="movieInput" type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie">
+                            <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie without ', &, or :, etc">
                         </div>
                         <!--FREQUENCY OF BOX OFFICE--> <!--only takes Daily, Weekend, and Week-->
-                        <div id="frequency">Please choose a Box Office frequency: </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="daily" value="Daily">
-                            <label class="form-check-label" for="daily">Daily</label>
+                        <div class="row" id="frequency">
+                            <div class="col">
+                                <p id="chooseFrequency">Please choose a Box Office frequency, otherwise default option is summary:</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radios" id="daily" value="Daily">
+                                    <label class="form-check-label" for="daily">Daily</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radios" id="weekend" value="Weekend">
+                                    <label class="form-check-label" for="weekend">Weekend</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="radios" id="weekly" value="Week">
+                                    <label class="form-check-label" for="weekly">Weekly</label>
+                                </div>
+                            </div>
+                            <!--DATE RANGE PICKER-->
+                            <div class="col flatpickr" id="movieDateDiv"></div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="weekly" value="Weekly">
-                            <label class="form-check-label" for="weekly">Weekend</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="monthly" value="Monthly">
-                            <label class="form-check-label" for="monthly">Week</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="yearly" value="Yearly">
-                            <label class="form-check-label" for="yearly">Total</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="searchBtnMovie">Search</button>
+                        <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>
                 </div>  
             </div>
         </div>
 
-        <div class="row">
-            <div class="card col-12">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Movie Name</th>
-                                <th scope="col">Genre</th>
-                                <th scope="col">Daily</th>
-                                <th scope="col">Weekend</th>
-                                <th scope="col">Week</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Theater Count</th>
-                                <th scope="col">Days in Release</th>
-                                <th scope="col">Tickets Sold</th>
-                                <th scope="col">Production Studio</th>
-                                <th scope="col">Production Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>    
+        <div class="row responseCard"></div>   
     </div>
 </body>
 </html>

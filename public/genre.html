@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>STX Entertainment | Genre</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Khula&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -17,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://kit.fontawesome.com/c58f8cf9af.js" crossorigin="anonymous"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="script.js"></script>
@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs nav-fill">
                         <li class="nav-item">
-                            <a class="nav-link" href="movie.html">Search by Movie Title</a>
+                            <a class="nav-link" href="index.html">Search by Movie Title</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="weekend.html">Search by Weekend</a>
@@ -45,8 +45,8 @@
                     </ul>
                     <form id="input-value">
                         <!--DATE RANGE PICKER-->
-                        <div class="daterange">
-                            <input type="text" name="daterange" id="datepicker"/>
+                        <div class="flatpickr">
+                            <input type="text" class="datepicker form-control" id="genre-date-range" data-input>
                         </div>
                         <div class="form-group input-icons">
                             <i class="fas fa-search icon"></i>
@@ -57,12 +57,16 @@
                             <input type="text" class="form-control input-field text-left" id="sub-genre-input" placeholder="Enter a sub-genre (optional)">
                         </div>
                         <div class="form-group input-icons">
-                            <i class="fas fa-receipt"></i>
+                            <i class="fas fa-receipt icon"></i>
                             <input type="text" class="form-control input-field text-left" id="limit-input" placeholder="Enter number of movies to be returned, ex. 5, 10, etc...">
                         </div>
                         <div class="form-group input-icons">
-                            <i class="fas fa-receipt"></i>
+                            <i class="fas fa-receipt icon"></i>
                             <input type="text" class="form-control input-field text-left" id="genre-revenue-input" placeholder="Search movies with XX revenue and higher only, ex. 1000000">
+                        </div>
+                        <div class="form-group">
+                            <label for="toggle">Would you like to only see movies released that weekend?</label>
+                            <input type="checkbox" id="genre-toggle-yes-no" checked data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios">
                         </div>
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>
@@ -70,46 +74,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="card col-12">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Movie Name</th>
-                                <th scope="col">Sub-Genre</th>
-                                <th scope="col">Opening Weekend Revenue</th>
-                                <th scope="col">Production Studio</th>
-                                <th scope="col">Production Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <div class="row responseCard"></div>
     </div>
 </body>
 </html>
