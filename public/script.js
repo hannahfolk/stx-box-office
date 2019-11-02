@@ -1,24 +1,39 @@
 $(document).ready(function() {
-    // Create variables
+
+    // ================== CREATE VARIABLES ================== //
 
     // ================== Variables for INDEX.HTML ================== //
     var movieInput = ""; // User-inputted movie title
     var boxFrequency = ""; // If user decides to search by time period
+    var movieDateRange = "";
+    var movieStartDate = "";
+    var movieEndDate = ""; 
 
     // ================== Variables for WEEKEND.HTML ================== //
     var numYearsInput = ""; // How many years back the user wants to look for a given week in the year
     var weekRevInput = ""; // The minimum amount of revenue in movies returned to the user
     var week = ""; // To store which week in the year the user is looking at, so we can look back 5, 10 years in the past
     var dayOfWeek = ""; // To store which day of the week they chose, aka Thurs, Fri, Sat, Sun
+    var weekendRange =""; // range selected by the user
+    var weekendStartDate = ""; // start date for the weekend selected
+    var weekendEndDate = ""; // end date for the weekend selected
 
     // ================== Variables for GENRE.HTML ================== //
     var genreInput = ""; // User-inputted genre
     var subGenreInput = ""; // User-inputted sub-genre
     var limitInput = ""; // User-inputted number of movies they would like back with that genre
     var genreRevInput = ""; // The minimum amount of revenue in movies returned to the user
+    var genreDateRange = "";
+    var genreStartDate = "";
+    var genreEndDate = ""; 
+
+    //==================== Other Variables ==================// 
 
     var today = moment().format("MM/DD/YYYY"); // grabs today's date
+    var currentYear = moment().format("YYYY");
     $(".datepicker").attr("placeholder", today + " to " + today); // puts today's date in the datepicker
+
+   //==================== MAIN CODE BODY BELOW THIS LINE ================== //  
 
     function generateData(event) {
         event.preventDefault();
@@ -39,6 +54,12 @@ $(document).ready(function() {
             boxFrequency = $("#weekly").val();
         };
         
+        if ($("#movie-date-range").val() != null && $("#movie-date-range").val() !== "") {
+            movieDateRange = $("#movie-date-range").val(); // returns value in format of "YYYY-MM-DD to YYY-MM-DD"
+            movieStartDate = movieDateRange.substring(0, 10); // gets start date as "YYYY-MM-DD"
+            movieEndDate = movieDateRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
+        };
+
         // ================ stores input values referencing WEEKEND.HTML ================== //
         // Stores the user-inputted number of years they want to look back on
         if ($("#num-years-input").val() !== null && $("#num-years-input").val() !== "" && isNaN($("#num-years-input").val()) === false) {
@@ -46,30 +67,28 @@ $(document).ready(function() {
             $("#num-years-input").val("");
         };
 
+        if ($("#weekend-date-range").val() != null && $("#weekend-date-range").val() !== "") {
+            weekendRange = $("#weekend-date-range").val(); // returns value in format of "YYYY-MM-DD to YYY-MM-DD"
+            weekendStartDate = weekendRange.substring(0, 10); // gets start date as "YYYY-MM-DD"
+            weekendEndDate = weekendRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
+        };
+
         // Stores the minimum amount of revenue the user wants to see in movies returned
         if ($("#weekend-revenue-input").val() !== null && $("#weekend-revenue-input").val() !== "" && isNaN($("#weekend-revenue-input").val()) === false) {
+
             weekRevInput = $("#weekend-revenue-input").val();
             $("#weekend-revenue-input").val("");
         };
-
-        // console.log($(".datepicker").val());
-        // if ($(""))
-        // week = moment(, "MM-DD-YYYY").week().toString();
-        // dayOfWeek = moment(start, "MM-DD-YYYY").format("ddd").toString();
-        
-        //@Eddie store on/off toggle button for movies released that weekend
         
         // =================== stores input values referencing GENRE.HTML ================== //
         // Stores the user-inputted genre
         if ($("#genre-input").val() !== null && $("#genre-input").val() !== "") {
             genreInput = $("#genre-input").val();
-            $("#genre-input").val("");
         };
 
         // Stores the user-inputted sub-genre
         if ($("#sub-genre-input").val() !== null && $("#sub-genre-input").val() !== "") {
             subGenreInput = $("#sub-genre-input").val();
-            $("#sub-genre-input").val("");
         };
 
         // Stores the user-inputted number of movies they would like returned
@@ -84,8 +103,19 @@ $(document).ready(function() {
             $("#genre-revenue-input").val("");
         };
 
-        // On off toggle button for movies released that weekend
+        if ($("#genre-date-range").val() != null && $("#genre-date-range").val() !== "") {
+            genreDateRange = $("#genre-date-range").val(); // returns value in format of "YYYY-MM-DD to YYY-MM-DD"
+            genreStartDate = genreDateRange.substring(0, 10); // gets start date as "YYYY-MM-DD"
+            genreEndDate = genreDateRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
+        };
+
         $.post("/api", {
+            movieStartDate: movieStartDate,
+            movieEndDate: movieEndDate,
+            weekendStartDate: weekendStartDate,
+            weekendEndDate: weekendEndDate,
+            genreStartDate: genreStartDate,
+            genreEndDate: genreEndDate,
             movieInput: movieInput,
             boxFrequency: boxFrequency,
             numYearsInput: numYearsInput,
@@ -95,10 +125,9 @@ $(document).ready(function() {
             genreInput: genreInput,
             subGenreInput: subGenreInput,
             limitInput: limitInput,
-            genreRevInput: genreRevInput
+            genreRevInput: genreRevInput,
+            currentYear: currentYear
         }).then(function(response) {
-            console.log(response);
-            console.log(response.movies);
 
             // Empty the responseCard
             $(".responseCard").empty();
@@ -121,23 +150,21 @@ $(document).ready(function() {
             for (var i = 0; i < response.movies.length; i++) {
                 var bodyTrEl = $("<tr>");
                 var bodyThEl = $("<th>");
-                var prodBudgTdEl = $("<td>");
-                var domBoxOffTdEl = $("<td>");
-                var intBoxOffTdEl = $("<td>");
 
                 bodyThEl.attr("scope", "row");
 
                 bodyThEl.text(response.movies[i].movieTitle);
-                prodBudgTdEl.text("$" + response.movies[i].productionBudget);
-                domBoxOffTdEl.text("$" + response.movies[i].domesticBoxOffice);
-                intBoxOffTdEl.text("$" + response.movies[i].internationalBoxOffice);
 
                 tBodyEl.append(bodyTrEl);
                 bodyTrEl.append(bodyThEl);
-                bodyTrEl.append(prodBudgTdEl);
-                bodyTrEl.append(domBoxOffTdEl);
-                bodyTrEl.append(intBoxOffTdEl);
-            };
+
+                for (var j = 0; j < response.movies[i].responseInfos.length; j++) {
+                    var tdEl = $("<td>");
+                    tdEl.text(response.movies[i].responseInfos[j]);
+                    bodyTrEl.append(tdEl);
+                }
+
+            }
 
             responseCardDiv.attr("class", "card col-12");
             responseCardBody.attr("class", "card-body");
@@ -158,7 +185,7 @@ $(document).ready(function() {
     function createDateRange() {
         $(".datepicker").flatpickr({
             mode: "range",
-            dateFormat: "m/d/Y"
+            dateFormat: "Y-m-d"
         });
     };
     
@@ -169,11 +196,13 @@ $(document).ready(function() {
         $("#movieDateDiv").empty();
 
         if ($(this).val() === "Daily" || $(this).val() === "Weekend" || $(this).val() === "Week") {
+
             var pEl = $("<p>");
             var datepickerEl = $("<input>");
 
             datepickerEl.attr("type", "text");
             datepickerEl.attr("class", "datepicker form-control");
+            datepickerEl.attr("id", "movie-date-range");
             datepickerEl.attr("placeholder", today + " to " + today);
             datepickerEl.attr("data-input", "");
             pEl.text("Please select your date range: ");
@@ -187,36 +216,4 @@ $(document).ready(function() {
 
     createDateRange();
     $(".searchBtn").on("click", generateData);
-
-    // For movie range:
-        // User inputs the weekend that they want using the datepicker
-        // On our side, we find out which weekend in the year it is, using moment.js
-        // Return the last (user-inputted-number) of years of movies that were in theaters on that weekend
-        // If the movie's number of days_in_release is less than 5,
-            // that movie was released that weekend
-            // highlight or bold it
-        // otherwise, movie is in chase
-    // Ask Omar how to host privately without paying on GitHub
-    // Ask Omar how to host in general lol
-        // Does the user need to install node? probably not
-    // Ask Omar how to grab data from client-side js and put into server-side js
-    // Format data in table in browser
-    // If time: create Excel export button, format data in Excel
-    // Ask Marie to format the card and make it look pretty
-    // Ask Marie to change icons
-
-    // If it is opening weekend or not
-
-    // Take the user-inputted-weekend
-    // Store the week in a variable, like how December 25th is the 52nd or sometimes 51st week of the year
-    // Subtract the year by one (two, 3, ...)
-    // Return the day of each year
-    var week1 = moment("10-11-2019", "MMDDYYYY").week();
-    var day1 = moment("10-11-2019", "MMDDYYYY").format("dddd");
-    var blah = moment(week1, "W").subtract(1, "years").format("MMDDYYYY");
-
-    // console.log(week1);
-    // console.log(day1);
-    // console.log(blah);
-
 });

@@ -46,9 +46,10 @@
                     <form id="input-value">
                         <div class="form-group input-icons">
                             <i class="fas fa-search icon"></i>
-                            <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie">
+                            <input type="text" class="form-control input-field text-left" id="movie-input" placeholder="Enter movie without ', &, or :, etc">
                         </div>
                         <!--FREQUENCY OF BOX OFFICE--> <!--only takes Daily, Weekend, and Week-->
+
                         <div class="row" id="frequency">
                             <div class="col">
                                 <p id="chooseFrequency">Please choose a Box Office frequency, otherwise default option is summary:</p>
@@ -68,66 +69,14 @@
                             <!--DATE RANGE PICKER-->
                             <div class="col flatpickr" id="movieDateDiv"></div>
                         </div>
+
                         <button type="submit" class="btn btn-primary searchBtn">Search</button>
                     </form>
                 </div>  
             </div>
         </div>
 
-        <div class="row responseCard">
-            <!-- <div class="card col-12">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Movie Name</th>
-                                <th scope="col">Genre</th>
-                                <th scope="col">Daily</th>
-                                <th scope="col">Weekend</th>
-                                <th scope="col">Week</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Theater Count</th>
-                                <th scope="col">Days in Release</th>
-                                <th scope="col">Tickets Sold</th>
-                                <th scope="col">Production Studio</th>
-                                <th scope="col">Production Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Joker</th>
-                                <td>random</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>10000000</td>
-                                <td>WB</td>
-                                <td>2019</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div> -->
-            </div>
+        <div class="row responseCard"></div>
         </div>    
     </div>
 </body>
