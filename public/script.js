@@ -34,7 +34,7 @@ $(document).ready(function() {
     var currentYear = moment().format("YYYY"); // grabs current year
     $(".datepicker").attr("placeholder", today + " to " + today); // puts today's date in the datepicker
 
-   //==================== MAIN CODE BODY BELOW THIS LINE ================== //  
+   //==================== MAIN CODE BODY BELOW THIS LINE ================== //
 
     function generateData(event) {
         event.preventDefault();
@@ -142,7 +142,7 @@ $(document).ready(function() {
         }).then(function(response) {
 
             console.log(response);
-            console.log(JSON.parse(response));
+
             // Empty the responseCard
             $(".responseCard").empty();
 

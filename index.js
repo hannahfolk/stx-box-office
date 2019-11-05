@@ -181,10 +181,10 @@ app.post("/api", (req, res) => {
             };
 
             // Send the data from server-side to client-side in JSON (because OpusData is dumb)
-            // res.json({
-            //   movies: movies,
-            //   colTitles: ["Movie Name", "Year", "Fri Revenue", "Sat Revenue", "Sun Revenue", "Total Weekend Revenue", "Total Revenue"]
-            // });
+            res.json({
+              movies: movies,
+              colTitles: ["Movie Name", "Year", "Fri Revenue", "Sat Revenue", "Sun Revenue", "Total Weekend Revenue", "Total Revenue"]
+            });
           });
         };
 
