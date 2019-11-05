@@ -5,9 +5,10 @@ $(document).ready(function() {
     // ================== Variables for INDEX.HTML ================== //
     var movieInput = ""; // User-inputted movie title
     var boxFrequency = ""; // If user decides to search by time period
-    var movieDateRange = "";
-    var movieStartDate = "";
-    var movieEndDate = ""; 
+    var movieDateRange = ""; // User-inputted date range for time period
+    var movieStartDate = ""; // Start date grabbed from date range
+    var movieEndDate = ""; // End date grabbed from date range
+    var whichMovieName;
 
     // ================== Variables for WEEKEND.HTML ================== //
     var numYearsInput = ""; // How many years back the user wants to look for a given week in the year
@@ -30,20 +31,33 @@ $(document).ready(function() {
 
     //==================== Other Variables ==================// 
 
-    var today = moment().format("MM/DD/YYYY"); // grabs today's date
-    var currentYear = moment().format("YYYY"); // grabs current year
-    $(".datepicker").attr("placeholder", today + " to " + today); // puts today's date in the datepicker
+    var today = moment().format("MM/DD/YYYY"); // Grabs today's date
+    var currentYear = moment().format("YYYY"); // Grabs current year
+    $(".datepicker").attr("placeholder", today + " to " + today); // Puts today's date in the datepicker
+    var country = "United States";
+    var movieURI; // The URI to send to the server-side
+    var whichTab; // Saves which tab the user is in
 
    //==================== MAIN CODE BODY BELOW THIS LINE ================== //
 
-    function generateData(event) {
+    function getUserInput(event) {
         event.preventDefault();
 
         // ================== Stores input values referencing INDEX.HTML ================== //
         // Stores the user-inputted movie title
-        if ($("#movie-input").val() !== null && $("#movie-input").val() !== "") {
+        if ($("#movie-input").val() != null && $("#movie-input").val() !== "") {
             movieInput = $("#movie-input").val();
+            movieInput = movieInput.toLowerCase();
+
+            // Clear the form
             $("#movie-input").val("");
+
+            // If movieInput starts with "The" or "A" or "An", change "movie_od_name" to "movie_display_name"
+            if (movieInput.startsWith("the ") || movieInput.startsWith("a ")) {
+                whichMovieName = "movie_display_name";
+            } else {
+                whichMovieName = "movie_od_name";
+            };
         };
 
         // Stores the box office frequency
@@ -63,7 +77,7 @@ $(document).ready(function() {
 
         // ================ Stores input values referencing WEEKEND.HTML ================== //
         // Stores the user-inputted number of years they want to look back on
-        if ($("#num-years-input").val() !== null && $("#num-years-input").val() !== "" && isNaN($("#num-years-input").val()) === false) {
+        if ($("#num-years-input").val() != null && $("#num-years-input").val() !== "" && isNaN($("#num-years-input").val()) === false) {
             numYearsInput = $("#num-years-input").val();
             $("#num-years-input").val("");
         };
@@ -77,7 +91,7 @@ $(document).ready(function() {
         };
 
         // Stores the minimum amount of revenue the user wants to see in movies returned
-        if ($("#weekend-revenue-input").val() !== null && $("#weekend-revenue-input").val() !== "" && isNaN($("#weekend-revenue-input").val()) === false) {
+        if ($("#weekend-revenue-input").val() != null && $("#weekend-revenue-input").val() !== "" && isNaN($("#weekend-revenue-input").val()) === false) {
 
             weekRevInput = $("#weekend-revenue-input").val();
             $("#weekend-revenue-input").val("");
@@ -92,23 +106,23 @@ $(document).ready(function() {
 
         // =================== Stores input values referencing GENRE.HTML ================== //
         // Stores the user-inputted genre
-        if ($("#genre-input").val() !== null && $("#genre-input").val() !== "") {
+        if ($("#genre-input").val() != null && $("#genre-input").val() !== "") {
             genreInput = $("#genre-input").val();
         };
 
         // Stores the user-inputted sub-genre
-        if ($("#sub-genre-input").val() !== null && $("#sub-genre-input").val() !== "") {
+        if ($("#sub-genre-input").val() != null && $("#sub-genre-input").val() !== "") {
             subGenreInput = $("#sub-genre-input").val();
         };
 
         // Stores the user-inputted number of movies they would like returned
-        if ($("#limit-input").val() !== null && $("#limit-input").val() !== "" && isNaN($("#limit-input").val()) === false) {
+        if ($("#limit-input").val() != null && $("#limit-input").val() !== "" && isNaN($("#limit-input").val()) === false) {
             limitInput = $("#limit-input").val();
             $("#limit-input").val("");
         };
 
         // Stores the minimum amount of revenue the user wants to see in movies returned
-        if ($("#genre-revenue-input").val() !== null && $("#genre-revenue-input").val() !== "" && isNaN($("#genre-revenue-input").val()) === false) {
+        if ($("#genre-revenue-input").val() != null && $("#genre-revenue-input").val() !== "" && isNaN($("#genre-revenue-input").val()) === false) {
             genreRevInput = $("#genre-revenue-input").val();
             $("#genre-revenue-input").val("");
         };
@@ -118,27 +132,17 @@ $(document).ready(function() {
             genreStartDate = genreDateRange.substring(0, 10); // gets start date as "YYYY-MM-DD"
             genreEndDate = genreDateRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
         };
-
+        
+        createDataURLs();
+        
         // Passing all the variables from user input into the server-side js
         $.post("/api", {
-            movieStartDate: movieStartDate,
-            movieEndDate: movieEndDate,
-            movieInput: movieInput,
-            boxFrequency: boxFrequency,
-            numYearsInput: numYearsInput,
-            weekRevInput: weekRevInput,
-            weekendStartDate: weekendStartDate,
-            weekendEndDate: weekendEndDate,
+            movieURI: movieURI,
+            whichTab: whichTab,
             week: week,
             dayOfWeek: dayOfWeek,
-            yesNoChecked: yesNoChecked,
-            genreInput: genreInput,
-            subGenreInput: subGenreInput,
-            limitInput: limitInput,
-            genreRevInput: genreRevInput,
-            currentYear: currentYear,
-            genreStartDate: genreStartDate,
-            genreEndDate: genreEndDate,
+            weekRevInput: weekRevInput,
+            genreRevInput: genreRevInput
         }).then(function(response) {
 
             console.log(response);
@@ -195,14 +199,112 @@ $(document).ready(function() {
 
     };
 
+    // Creates the different URIs to attach at the end of the dataURL for the three different tabs
+    function createDataURLs() {
+
+        // =================== FOR THE MOVIE TAB ===================== //
+
+        if (movieInput !== "") {
+
+            // If user selects a date range (if boxFrequency === "daily," "weekend," or "weekly"), add movieDateFilter to movieBox and use movieBox
+            if (movieStartDate !== "") {
+                // Set the movieDateFilter using start and end date
+                var movieDateFilter = "%20AND%20chart_date%20between%20%22" + movieStartDate + "%22%20AND%20%22" + movieEndDate + "%22";
+
+                // Add the movieDateFilter into the movieBox URI
+                var movieBox = "/movie_theatrical_chart_entries?filter=" + whichMovieName + "%20like%20(%22" + movieInput + "%%22)%20AND%20movie_chart_type_od_name=%22" + boxFrequency + "%22" + movieDateFilter;
+
+                movieURI = movieBox;
+                whichTab = "movieBox";
+            } else {
+                // If boxFrequency === "Summary", use movieSummary.
+                var movieSummary = "/movie_financial_summaries?filter=" + whichMovieName + "%20like%20(%22" + movieInput + "%%22)";
+
+                movieURI = movieSummary;
+                whichTab = "movieSummary";
+            };
+        } 
+        // =================== FOR THE WEEKEND TAB ===================== //
+
+        else if (weekendStartDate !== "") {
+
+            var movieRange = "/movie_theatrical_chart_entries?merge=country&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
+  
+            movieURI = movieRange;
+            whichTab= "movieRange";
+        }
+        // =================== FOR THE GENRE TAB ===================== //
+
+        // If they enter a genre, use movieGenre
+        else if (genreInput !== "") {
+
+            // If they enter a sub-genre, add sub-genre to URI
+            if (subGenreInput !== "") {
+                var subGenre = "%20AND%20work_keyword_od_name%20like%20(%22" + subGenreInput + "%%22)";
+            } else {
+                subGenre = "";
+            };
+
+            // If they enter a limit, add limit to URI
+            if (limitInput !== "") {
+                limit = "&limit=" + limitInput;
+            } else {
+                limit = "";
+            };
+
+            var movieGenre = "/movie_extended_summaries?merge=movie_genre,country,work_keyword&filter=movie_genre_od_name%20like%20(%22" + genreInput + "%%22)%20AND%20country_od_name%20like%20(%22" + country + "%%22)%20AND%20release_date%20between%20%22" + genreStartDate + "%22%20AND%20%22" + genreEndDate + "%22" + subGenre + limit;
+
+            movieURI = movieGenre;
+            whichTab = "movieGenre";
+        };
+
+        return movieURI, whichTab;
+    };
+
     // Opens the date range picker and stores the user-selected date range
     function createDateRange() {
         $(".datepicker").flatpickr({
             mode: "range",
             dateFormat: "Y-m-d"
         });
+
+        $("#weekend-date-range").flatpickr({
+            "disable": [
+                function(date) {
+                    // return true to disable
+                    return (date.getDay() === 1 || date.getDay() === 2);
+                }
+            ]
+        });
     };
-    
+
+    function getReleaseDate() {
+        
+        var tempMovieInput = $("#movie-input").val().trim();
+        tempMovieInput = capitalize(tempMovieInput);
+
+        var queryURL = "https://www.omdbapi.com/?t=" + tempMovieInput + "&apikey=trilogy";
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then (function(response) {
+            $("#release-date").text(tempMovieInput + " was released on " + moment(response.Released).format("MMMM Do YYYY") + ".");
+        });
+    }
+
+    // Proper case user-inputted movie name
+    function capitalize(name) {
+        var splitName = name.split(" ");
+        for (var i = 0; i < splitName.length; i++) {
+            splitName[i] = splitName[i].charAt(0).toUpperCase() + splitName[i].substr(1).toLowerCase();
+            // console.log(newName);
+            var properName = splitName.join(" ");
+            // console.log(properName);
+        };
+        return properName;
+    };
+
     // Add the date range if the user selects daily, weekend, or week
     $(".form-check-input").on("click", function() {
 
@@ -226,8 +328,9 @@ $(document).ready(function() {
 
             createDateRange();
         };
+        getReleaseDate();
     });
 
     createDateRange();
-    $(".searchBtn").on("click", generateData);
+    $(".searchBtn").on("click", getUserInput);
 });
