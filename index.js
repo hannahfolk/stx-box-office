@@ -1,7 +1,8 @@
 
 const express = require("express");
 const app = express();
-const util = require("util");
+// const util = require("util");
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + "/public"));
 
@@ -239,6 +240,6 @@ app.post("/api", (req, res) => {
     });
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("App listening on port 3000!");
 });
