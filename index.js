@@ -1,7 +1,7 @@
 
 const express = require("express");
 const app = express();
-// const util = require("util");
+const util = require("util");
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + "/public"));
@@ -12,7 +12,7 @@ app.use(express.urlencoded({
 app.use(express.json())
 
 app.post("/api", (req, res) => {
-
+    
     // ================== Variables for INDEX.HTML ================== //
     var movieInput = req.body.movieInput;
     var boxFrequency = req.body.boxFrequency;
@@ -146,6 +146,8 @@ app.post("/api", (req, res) => {
 
           console.log(dataURL);
           axios.get(dataURL, options).then(function(data) {
+            console.log(data.data);
+            res.json(util.inspect(data.data));
             for (var i = 0; i < data.data.length; i++) {
               var days = [];
 
@@ -179,10 +181,10 @@ app.post("/api", (req, res) => {
             };
 
             // Send the data from server-side to client-side in JSON (because OpusData is dumb)
-            res.json({
-              movies: movies,
-              colTitles: ["Movie Name", "Year", "Fri Revenue", "Sat Revenue", "Sun Revenue", "Total Weekend Revenue", "Total Revenue"]
-            });
+            // res.json({
+            //   movies: movies,
+            //   colTitles: ["Movie Name", "Year", "Fri Revenue", "Sat Revenue", "Sun Revenue", "Total Weekend Revenue", "Total Revenue"]
+            // });
           });
         };
 

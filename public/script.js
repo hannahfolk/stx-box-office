@@ -17,7 +17,7 @@ $(document).ready(function() {
     var weekendRange =""; // Range selected by the user for weekend
     var weekendStartDate = ""; // Start date for the weekend selected
     var weekendEndDate = ""; // End date for the weekend selected
-    var weekendYesNoChecked = ""; // Toggle button for weekend
+    var yesNoChecked = ""; // Toggle button for weekend
 
     // ================== Variables for GENRE.HTML ================== //
     var genreInput = ""; // User-inputted genre
@@ -27,7 +27,6 @@ $(document).ready(function() {
     var genreDateRange = ""; // Range selected by user for genre
     var genreStartDate = ""; // Start date for the genre tab
     var genreEndDate = ""; // End date for the genre tab
-    var genreYesNoChecked = ""; // Toggle button for genre
 
     //==================== Other Variables ==================// 
 
@@ -84,10 +83,11 @@ $(document).ready(function() {
             $("#weekend-revenue-input").val("");
         };
 
-        if ($("#weekend-toggle-yes-no").is(":checked")) {
-            weekendYesNoChecked = "Yes";
+        // Stores whether or not the user wants to only see movies that were released in the chosen weekend
+        if ($("#toggle-yes-no").is(":checked")) {
+            yesNoChecked = "Yes";
         } else {
-            weekendYesNoChecked = "No";
+            yesNoChecked = "No";
         };
 
         // =================== Stores input values referencing GENRE.HTML ================== //
@@ -119,12 +119,7 @@ $(document).ready(function() {
             genreEndDate = genreDateRange.substring(14, 24); // gets end date as "YYYY-MM-DD"
         };
 
-        if ($("#genre-toggle-yes-no").is(":checked")) {
-            genreYesNoChecked = "Yes";
-        } else {
-            genreYesNoChecked = "No";
-        };
-
+        // Passing all the variables from user input into the server-side js
         $.post("/api", {
             movieStartDate: movieStartDate,
             movieEndDate: movieEndDate,
@@ -136,7 +131,7 @@ $(document).ready(function() {
             weekendEndDate: weekendEndDate,
             week: week,
             dayOfWeek: dayOfWeek,
-            weekendYesNoChecked: weekendYesNoChecked,
+            yesNoChecked: yesNoChecked,
             genreInput: genreInput,
             subGenreInput: subGenreInput,
             limitInput: limitInput,
@@ -144,9 +139,10 @@ $(document).ready(function() {
             currentYear: currentYear,
             genreStartDate: genreStartDate,
             genreEndDate: genreEndDate,
-            genreYesNoChecked: genreYesNoChecked
         }).then(function(response) {
 
+            console.log(response);
+            console.log(JSON.parse(response));
             // Empty the responseCard
             $(".responseCard").empty();
 
