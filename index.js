@@ -20,6 +20,7 @@ app.post("/api", (req, res) => {
     var week = req.body.week;
     var dayOfWeek = req.body.dayOfWeek;
     var weekRevInput = req.body.weekRevInput;
+    var numYearsInput = req.body.numYearsInput;
     var genreRevInput = req.body.genreRevInput;
     var movies = [];
     
@@ -40,6 +41,7 @@ app.post("/api", (req, res) => {
         if (whichTab === "movieBox") {
           console.log(dataURL);
           axios.get(dataURL, options).then(function(data) {
+              
               for (var i = 0; i < data.data.length; i++) {
 
                 var responseInfos = [
@@ -62,7 +64,9 @@ app.post("/api", (req, res) => {
               });
           });
         } else if (whichTab === "movieSummary") {
+          console.log(dataURL);
           axios.get(dataURL, options).then(function(data) {
+            console.log(data.data[0]);
             for (var i = 0; i < data.data.length; i++) {
                 var responseInfos = [
                   domesticBoxOffice = "$" + data.data[i].domestic_box_office,
@@ -86,6 +90,7 @@ app.post("/api", (req, res) => {
               movies: movies,
               colTitles: ["Movie Name", "Production Budget", "Domestic Box Office", "International Box Office"]
             });
+            // res.json(util.inspect(data.data));
           });
         }
 
@@ -100,7 +105,7 @@ app.post("/api", (req, res) => {
 
             for (var i = 0; i < data.data.length; i++) {
               var responseInfos = [
-                productionYear = data.data[i].production_year,
+                releaseYear = data.data[i].release_date,
                 revenue = data.data[i].revenue,
                 genre = data.data[i].movie_genre_display_name
               ];
@@ -116,7 +121,7 @@ app.post("/api", (req, res) => {
 
             };
 
-            var colTitles = ["Movie Name", "Production Year", "Friday Revenue", "Saturday Revenue", "Sunday Revenue", "Total Weekend Revenue", "Total Revenue", "Genre"];
+            var colTitles = ["Movie Name", "Release Year", "Friday Revenue", "Saturday Revenue", "Sunday Revenue", "Total Weekend Revenue", "Total Revenue", "Genre"];
 
             if (dayOfWeek === "Wed") {
               colTitles.splice(2, 0, "Wednesday Revenue");
@@ -125,12 +130,12 @@ app.post("/api", (req, res) => {
               colTitles.splice(2, 0, "Thursday Revenue");
             };
 
-            res.json({
-              movies: movies,
-              colTitles: colTitles
-            });
+            // res.json({
+            //   movies: movies,
+            //   colTitles: colTitles
+            // });
 
-            // res.json(util.inspect(data.data));
+            res.json(util.inspect(data.data));
             // for (var i = 0; i < data.data.length; i++) {
             //   var days = [];
 

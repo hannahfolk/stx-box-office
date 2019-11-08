@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+    
     // ================== CREATE VARIABLES ================== //
 
     // ================== Variables for INDEX.HTML ================== //
@@ -31,7 +32,7 @@ $(document).ready(function() {
 
     //==================== Other Variables ==================// 
 
-    var today = moment().format("MM/DD/YYYY"); // Grabs today's date
+    var today = moment().format("YYYY-MM-DD"); // Grabs today's date
     var currentYear = moment().format("YYYY"); // Grabs current year
     $(".datepicker").attr("placeholder", today + " to " + today); // Puts today's date in the datepicker
     var country = "United States";
@@ -106,12 +107,12 @@ $(document).ready(function() {
 
         // =================== Stores input values referencing GENRE.HTML ================== //
         // Stores the user-inputted genre
-        if ($("#genre-input").val() != null && $("#genre-input").val() !== "") {
+        if ($("#genre-input").val() != null && $("#genre-input").val() !== "Select a Genre:" && $("#genre-input").val() !== "") {
             genreInput = $("#genre-input").val();
         };
 
         // Stores the user-inputted sub-genre
-        if ($("#sub-genre-input").val() != null && $("#sub-genre-input").val() !== "") {
+        if ($("#sub-genre-input").val() != null && $("#sub-genre-input").val() !== "Select a Sub-genre (optional):" && $("#sub-genre-input").val() !== "") {
             subGenreInput = $("#sub-genre-input").val();
         };
 
@@ -142,6 +143,7 @@ $(document).ready(function() {
             week: week,
             dayOfWeek: dayOfWeek,
             weekRevInput: weekRevInput,
+            numYearsInput: numYearsInput,
             genreRevInput: genreRevInput
         }).then(function(response) {
 
@@ -168,13 +170,66 @@ $(document).ready(function() {
             for (var i = 0; i < response.movies.length; i++) {
                 var bodyTrEl = $("<tr>");
                 var bodyThEl = $("<th>");
+                var posterBtn = $("<button>");
+                var posterModal = $("<div>");
+                var posterModalDialog = $("<div>");
+                var posterModalContent = $("<div>");
+                var posterModalHeader = $("<div>");
+                var posterModalBtn = $("<button>");
+                var posterModalBtnSpan = $("<span>");
+                var posterModalBody = $("<div>");
 
                 bodyThEl.attr("scope", "row");
+                posterBtn.attr("type", "button");
+                posterBtn.attr("class", "btn btn-link posterBtn");
+                posterBtn.attr("data-toggle", "modal");
+                posterBtn.attr("data-target", "#posterModal");
+                posterModal.attr("class", "modal fade");
+                posterModal.attr("tabindex", "-1");
+                posterModal.attr("role", "dialog");
+                posterModal.attr("aria-labelledby", "posterModalLabel");
+                posterModal.attr("aria-hidden", "true");
+                posterModalDialog.attr("class", "modal-dialog");
+                posterModalDialog.attr("role", "document");
+                posterModalContent.attr("class", "modal-content");
+                posterModalHeader.attr("class", "modal-header");
+                posterModalBtn.attr("type", "button");
+                posterModalBtn.attr("class", "close");
+                posterModalBtn.attr("data-dismiss", "modal");
+                posterModalBtn.attr("aria-label", "Close");
+                posterModalBtnSpan.attr("aria-hidden", "true");
+                posterModalBody.attr("class", "modal-body text-center");
 
-                bodyThEl.text(response.movies[i].movieTitle);
+                var posterURL = "https://www.omdbapi.com/?t=" + response.movies[i].movieTitle + "&apikey=trilogy";
 
+                console.log(response.movies[i].movieTitle);
+                // Grab the poster for the movie
+                $.ajax({
+                    url: posterURL,
+                    method: "GET"
+                }).then (function(omdbResponse) {
+                    var poster = omdbResponse.Poster;
+
+                    var posterImg = $("<img>");
+                    posterImg.attr("class", "posterImg");
+                    posterImg.attr("src", poster);
+                    // posterModalBody.empty();
+                    posterModalBody.append(posterImg);
+                });
+
+                posterBtn.text(response.movies[i].movieTitle);
+                posterModalBtnSpan.text("\u00D7");
+                
                 tBodyEl.append(bodyTrEl);
                 bodyTrEl.append(bodyThEl);
+                bodyThEl.append(posterBtn);
+                bodyThEl.append(posterModal);
+                posterModal.append(posterModalDialog);
+                posterModalDialog.append(posterModalContent);
+                posterModalContent.append(posterModalHeader);
+                posterModalHeader.append(posterModalBtn);
+                posterModalBtn.append(posterModalBtnSpan);
+                posterModalContent.append(posterModalBody);
 
                 for (var j = 0; j < response.movies[i].responseInfos.length; j++) {
                     var tdEl = $("<td>");
@@ -198,6 +253,10 @@ $(document).ready(function() {
         });
 
     };
+    
+    $(document).on("click", ".posterBtn", function() {
+        $(this.nextSibling).modal("show");
+    });
 
     // Creates the different URIs to attach at the end of the dataURL for the three different tabs
     function createDataURLs() {
@@ -262,13 +321,15 @@ $(document).ready(function() {
     };
 
     // Opens the date range picker and stores the user-selected date range
-    function createDateRange() {
+    function createDateRange(released) {
         $(".datepicker").flatpickr({
             mode: "range",
-            dateFormat: "Y-m-d"
+            dateFormat: "Y-m-d",
+            defaultDate: [released]
         });
 
         $("#weekend-date-range").flatpickr({
+            mode: "range",
             "disable": [
                 function(date) {
                     // return true to disable
@@ -290,6 +351,7 @@ $(document).ready(function() {
             method: "GET"
         }).then (function(response) {
             $("#release-date").text(tempMovieInput + " was released on " + moment(response.Released).format("MMMM Do YYYY") + ".");
+            createDateRange(moment(response.Released).format("YYYY-MM-DD"));
         });
     }
 
@@ -313,23 +375,29 @@ $(document).ready(function() {
 
         if ($(this).val() === "Daily" || $(this).val() === "Weekend" || $(this).val() === "Week") {
 
-            var pEl = $("<p>");
-            var datepickerEl = $("<input>");
+            if ($("#movie-input").val() !== "") {
+                var pEl = $("<p>");
+                var datepickerEl = $("<input>");
 
-            datepickerEl.attr("type", "text");
-            datepickerEl.attr("class", "datepicker form-control");
-            datepickerEl.attr("id", "movie-date-range");
-            datepickerEl.attr("placeholder", today + " to " + today);
-            datepickerEl.attr("data-input", "");
-            pEl.text("Please select your date range: ");
+                datepickerEl.attr("type", "text");
+                datepickerEl.attr("class", "datepicker form-control");
+                datepickerEl.attr("id", "movie-date-range");
+                datepickerEl.attr("data-input", "");
+                pEl.text("Please select your date range: ");
 
-            $("#movieDateDiv").append(pEl);
-            $("#movieDateDiv").append(datepickerEl);
+                $("#movieDateDiv").append(pEl);
+                $("#movieDateDiv").append(datepickerEl);
 
-            createDateRange();
+                createDateRange();
+                getReleaseDate();
+            };
+            
         };
-        getReleaseDate();
     });
+
+    // $(function() {
+    //     $("#toggle-yes-no").bootstrapToggle();
+    // });
 
     createDateRange();
     $(".searchBtn").on("click", getUserInput);
