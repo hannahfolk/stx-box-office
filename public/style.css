@@ -81,10 +81,27 @@ body {
 
 .toggle.ios, .toggle-on.ios, .toggle-off.ios {
     border-radius: 20px;
+
 }
 
 .toggle.ios .toggle-handle {
     border-radius: 20px;
+}
+
+.btn-default {
+    background-color: white;
+    border-color: #bebebe;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn:active, .btn.active {
+    outline: 0;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
 }
 
 #frequency {
@@ -106,4 +123,21 @@ body {
 .datepicker {
     max-width: 300px;
     margin-bottom: 20px;
+}
+
+.btn-link:hover, .btn-link:active, .btn-link:focus {
+    text-decoration: none;
+}
+
+.posterBtn {
+    padding: 0;
+}
+
+.posterImg {
+    width: 450px;
+    height: 667.5px;
+}
+
+.modal-header {
+    padding: 10px 10px 0 0;
 }
