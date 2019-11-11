@@ -287,7 +287,7 @@ $(document).ready(function() {
 
         else if (weekendStartDate !== "") {
 
-            var movieRange = "/movie_theatrical_chart_entries?merge=country&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
+            var movieRange = "/movie_theatrical_releases?merge=movie_theatrical_chart_entries,country&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
   
             movieURI = movieRange;
             whichTab= "movieRange";

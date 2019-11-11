@@ -1,5 +1,6 @@
 
 const express = require("express");
+const _ = require("lodash");
 const app = express();
 const util = require("util");
 const PORT = process.env.PORT || 3000;
@@ -101,25 +102,30 @@ app.post("/api", (req, res) => {
           // If date starts on Thursday, ...
         else if (whichTab === "movieRange") {
           axios.get(dataURL, options).then(function(data) {
-            console.log(data.data);
+            // console.log(data.data);
 
-            for (var i = 0; i < data.data.length; i++) {
-              var responseInfos = [
-                releaseYear = data.data[i].release_date,
-                revenue = data.data[i].revenue,
-                genre = data.data[i].movie_genre_display_name
-              ];
+            var sorted = _.groupBy(data.data, "movie_display_name");
+            var sortedArray = Object.keys(sorted);
+            console.log(sorted);
+            // console.log(sorted[sortedArray[1]][0]);
 
-              var movie = {
-                movieTitle: data.data[i].movie_display_name,
-                responseInfos: responseInfos
-              };
+            for (var i = 0; i < sortedArray.length; i++) {
+              // console.log(sorted[sortedArray[i]]);
+              // var responseInfos = [
+              //   releaseYear = sorted[sortedArray[i]][i].release_date,
+              //   revenue = "$" + sorted[sortedArray[i]][i].revenue,
+              //   genre = sorted[sortedArray[i]][i].movie_genre_display_name
+              // ];
 
-              if (data.data[i].revenue >= weekRevInput) {
-                movies.push(movie);
-              };
+              // var movie = {
+              //   movieTitle: sorted[sortedArray[i]][i].movie_display_name,
+              //   // responseInfos: responseInfos
+              // };
 
-            };
+              // movies.push(movie);
+            }
+
+            // console.log(movies);
 
             var colTitles = ["Movie Name", "Release Year", "Friday Revenue", "Saturday Revenue", "Sunday Revenue", "Total Weekend Revenue", "Total Revenue", "Genre"];
 
@@ -135,7 +141,7 @@ app.post("/api", (req, res) => {
             //   colTitles: colTitles
             // });
 
-            res.json(util.inspect(data.data));
+            res.json(sorted);
             // for (var i = 0; i < data.data.length; i++) {
             //   var days = [];
 
