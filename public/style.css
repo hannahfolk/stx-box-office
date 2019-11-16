@@ -135,6 +135,8 @@ p {
 
 .posterBtn {
     padding: 0;
+    font-size: 12px;
+    float: left;
 }
 
 .posterImg {
@@ -149,4 +151,12 @@ p {
 .disclaimer {
     font-size: 12px;
     margin-left: 20px;
+}
+
+.responseCard {
+    font-size: 12px;
+}
+
+th, td {
+    padding: 5px !important;
 }

@@ -35,6 +35,7 @@ $(document).ready(function() {
     var today = moment().format("YYYY-MM-DD"); // Grabs today's date
     var currentYear = moment().format("YYYY"); // Grabs current year
     $(".datepicker").attr("placeholder", today + " to " + today); // Puts today's date in the datepicker
+    var region = "North America";
     var country = "United States";
     var movieURI; // The URI to send to the server-side
     var whichTab; // Saves which tab the user is in
@@ -287,8 +288,10 @@ $(document).ready(function() {
 
         else if (weekendStartDate !== "") {
 
-            var movieRange = "/movie_theatrical_releases?merge=movie_theatrical_chart_entries,country&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
+            // var movieRange = "/movie_theatrical_releases?merge=movie_theatrical_chart_entry,region&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20region_od_name%20like%20(%22" + region + "%%22)";
   
+            var movieRange = "/movie_theatrical_chart_entries?merge=country&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
+
             movieURI = movieRange;
             whichTab= "movieRange";
         }
@@ -333,7 +336,7 @@ $(document).ready(function() {
             "disable": [
                 function(date) {
                     // return true to disable
-                    return (date.getDay() === 1 || date.getDay() === 2);
+                    return (date.getDay() === 1 || date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4);
                 }
             ]
         });
