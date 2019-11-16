@@ -40,7 +40,7 @@ app.post("/api", (req, res) => {
         // @EDDIE add production year
 
         if (whichTab === "movieBox") {
-          console.log(dataURL);
+          
           axios.get(dataURL, options).then(function(data) {
               
               for (var i = 0; i < data.data.length; i++) {
@@ -65,7 +65,7 @@ app.post("/api", (req, res) => {
               });
           });
         } else if (whichTab === "movieSummary") {
-          console.log(dataURL);
+          
           axios.get(dataURL, options).then(function(data) {
             console.log(data.data[0]);
             for (var i = 0; i < data.data.length; i++) {
@@ -91,87 +91,60 @@ app.post("/api", (req, res) => {
               movies: movies,
               colTitles: ["Movie Name", "Production Budget", "Domestic Box Office", "International Box Office"]
             });
-            // res.json(util.inspect(data.data));
           });
         }
 
         // =================== FOR THE WEEKEND TAB ===================== //
 
-        // STILL HAVE TO:
-          // If date starts on Wednesday, go all the way until Sun
-          // If date starts on Thursday, ...
         else if (whichTab === "movieRange") {
           axios.get(dataURL, options).then(function(data) {
+            
             // console.log(data.data);
 
             var sorted = _.groupBy(data.data, "movie_display_name");
             var sortedArray = Object.keys(sorted);
-            console.log(sorted);
-            // console.log(sorted[sortedArray[1]][0]);
 
             for (var i = 0; i < sortedArray.length; i++) {
-              // console.log(sorted[sortedArray[i]]);
-              // var responseInfos = [
-              //   releaseYear = sorted[sortedArray[i]][i].release_date,
-              //   revenue = "$" + sorted[sortedArray[i]][i].revenue,
-              //   genre = sorted[sortedArray[i]][i].movie_genre_display_name
-              // ];
+              var responseInfos = [];
+              var totalWeekendRevenue = 0;
 
-              // var movie = {
-              //   movieTitle: sorted[sortedArray[i]][i].movie_display_name,
-              //   // responseInfos: responseInfos
-              // };
+              for (var j = 0; j < sorted[sortedArray[i]].length; j++) {
 
-              // movies.push(movie);
+                var day = "$" + sorted[sortedArray[i]][j].revenue;
+                totalWeekendRevenue += parseInt(sorted[sortedArray[i]][j].revenue);
+
+                responseInfos.push(day);
+
+              };
+
+              console.log(sorted[sortedArray[i]].length);
+              if (sorted[sortedArray[i]].length === 1 || sorted[sortedArray[i]].length === 2) {
+                for (var k = 0; k < 3 - sorted[sortedArray[i]].length; k++) {
+                  responseInfos.push("$ ---------");
+                };
+              };
+
+              responseInfos.push("$" + totalWeekendRevenue);
+              responseInfos.push("$" + sorted[sortedArray[i]][sorted[sortedArray[i]].length - 1].total_revenue);
+              responseInfos.push(sorted[sortedArray[i]][0].movie_genre_display_name);
+              
+              var movie = {
+                movieTitle: sorted[sortedArray[i]][0].movie_display_name,
+                responseInfos: responseInfos
+              };
+
+              movies.push(movie);
             }
 
-            // console.log(movies);
+            var colTitles = ["Movie Name", //"Release Year", 
+            "Friday Revenue", "Saturday Revenue", "Sunday Revenue", "Total Weekend Revenue", "Total Revenue", "Genre"];
 
-            var colTitles = ["Movie Name", "Release Year", "Friday Revenue", "Saturday Revenue", "Sunday Revenue", "Total Weekend Revenue", "Total Revenue", "Genre"];
-
-            if (dayOfWeek === "Wed") {
-              colTitles.splice(2, 0, "Wednesday Revenue");
-              colTitles.splice(3, 0, "Thursday Revenue");
-            } else if (dayOfWeek === "Thu") {
-              colTitles.splice(2, 0, "Thursday Revenue");
-            };
-
-            // res.json({
-            //   movies: movies,
-            //   colTitles: colTitles
-            // });
-
-            res.json(sorted);
-            // for (var i = 0; i < data.data.length; i++) {
-            //   var days = [];
-
-            //   for (var j = 0; j < data.data.length; j++){
-            //     if (data.data[i].odid === data.data[j].odid) {
-            //       var day = {
-            //         daysInRelease: data.data[j].days_in_release,
-            //         revenue: data.data[j].revenue
-            //       };
-            //       days.push(day);
-
-            //       for (var k = 0; k < days.length; k++) {
-            //         var responseInfos = [
-            //           daysInRelease = days[k].daysInRelease,
-            //           totalWeekendRevenue = days[k].revenue,
-            //           totalRevenue = data.data[j].total_revenue
-            //         ];
-            //       };
-
-            //       var movie = {
-            //         movieTitle: data.data[i].movie_display_name,
-            //         responseInfos: responseInfos
-            //       };
-            //     };
-            //   };
-              
-            //   if (data.data[i].total_revenue > weekRevInput) {
-            //     movies.push(movie);
-            //   };                  
-            // };
+            res.json({
+              movies: movies,
+              colTitles: colTitles
+            });
+            
+            // res.json(util.inspect(data.data));
 
           });
         }
@@ -179,6 +152,7 @@ app.post("/api", (req, res) => {
         // =================== FOR THE GENRE TAB ===================== //
         else if (whichTab === "movieGenre") {
           axios.get(dataURL, options).then(function(data) {
+
             for (var i = 0; i < data.data.length; i++) {
                 var responseInfos = [
                   openingWeekendRevenue = "$" + data.data[i].opening_weekend_revenue,
