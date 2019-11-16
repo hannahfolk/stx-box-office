@@ -67,7 +67,7 @@ app.post("/api", (req, res) => {
         } else if (whichTab === "movieSummary") {
           console.log(dataURL);
           axios.get(dataURL, options).then(function(data) {
-            console.log(data.data[0]);
+            
             for (var i = 0; i < data.data.length; i++) {
                 var responseInfos = [
                   domesticBoxOffice = "$" + data.data[i].domestic_box_office,
@@ -91,7 +91,7 @@ app.post("/api", (req, res) => {
               movies: movies,
               colTitles: ["Movie Name", "Production Budget", "Domestic Box Office", "International Box Office"]
             });
-            // res.json(util.inspect(data.data));
+            
           });
         }
 
@@ -104,13 +104,13 @@ app.post("/api", (req, res) => {
           axios.get(dataURL, options).then(function(data) {
             // console.log(data.data);
 
-            var sorted = _.groupBy(data.data, "movie_display_name");
-            var sortedArray = Object.keys(sorted);
-            console.log(sorted);
+            // var sorted = _.groupBy(data.data, "movie_display_name");
+            // var sortedArray = Object.keys(sorted);
+            // console.log(sorted);
             // console.log(sorted[sortedArray[1]][0]);
 
-            for (var i = 0; i < sortedArray.length; i++) {
-              // console.log(sorted[sortedArray[i]]);
+            // for (var i = 0; i < sortedArray.length; i++) {
+            //   console.log(sorted[sortedArray[i]]);
               // var responseInfos = [
               //   releaseYear = sorted[sortedArray[i]][i].release_date,
               //   revenue = "$" + sorted[sortedArray[i]][i].revenue,
@@ -118,12 +118,12 @@ app.post("/api", (req, res) => {
               // ];
 
               // var movie = {
-              //   movieTitle: sorted[sortedArray[i]][i].movie_display_name,
-              //   // responseInfos: responseInfos
-              // };
+                // movieTitle: sorted[sortedArray[i]][i].movie_display_name,
+                // responseInfos: responseInfos
+            //   };
 
-              // movies.push(movie);
-            }
+            //   movies.push(movie);
+            // }
 
             // console.log(movies);
 
@@ -141,7 +141,7 @@ app.post("/api", (req, res) => {
             //   colTitles: colTitles
             // });
 
-            res.json(sorted);
+            res.json(data.data);
             // for (var i = 0; i < data.data.length; i++) {
             //   var days = [];
 
