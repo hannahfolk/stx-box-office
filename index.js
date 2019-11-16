@@ -67,7 +67,7 @@ app.post("/api", (req, res) => {
         } else if (whichTab === "movieSummary") {
           
           axios.get(dataURL, options).then(function(data) {
-            console.log(data.data[0]);
+            
             for (var i = 0; i < data.data.length; i++) {
                 var responseInfos = [
                   domesticBoxOffice = "$" + data.data[i].domestic_box_office,
@@ -91,6 +91,7 @@ app.post("/api", (req, res) => {
               movies: movies,
               colTitles: ["Movie Name", "Production Budget", "Domestic Box Office", "International Box Office"]
             });
+
           });
         }
 
@@ -100,7 +101,7 @@ app.post("/api", (req, res) => {
           axios.get(dataURL, options).then(function(data) {
             
             // console.log(data.data);
-
+            
             var sorted = _.groupBy(data.data, "movie_display_name");
             var sortedArray = Object.keys(sorted);
 
