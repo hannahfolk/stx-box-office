@@ -95,7 +95,6 @@ app.post("/api", (req, res) => {
         }
 
         // =================== FOR THE WEEKEND TAB ===================== //
-
         else if (whichTab === "movieRange") {
           axios.get(dataURL, options).then(function(data) {
             
