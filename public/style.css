@@ -6,6 +6,7 @@ body {
     margin: 0px; 
     background-image: url('cityscape.jpg');   
     background-repeat: no-repeat;
+    background-size: cover;
     font-family: 'Khula', sans-serif;
 }
 
@@ -148,7 +149,7 @@ p {
     padding: 10px 10px 0 0;
 }
 
-.disclaimer {
+.note {
     font-size: 12px;
     margin-left: 20px;
 }
