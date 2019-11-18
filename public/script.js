@@ -12,10 +12,10 @@ $(document).ready(function() {
     var whichMovieName;
 
     // ================== Variables for WEEKEND.HTML ================== //
-    var numYearsInput = ""; // How many years back the user wants to look for a given week in the year
-    var weekRevInput = ""; // The minimum amount of revenue in movies returned to the user
-    var week = ""; // To store which week in the year the user is looking at, so we can look back 5, 10 years in the past
-    var dayOfWeek = ""; // To store which day of the week they chose, aka Thurs, Fri, Sat, Sun
+    // var numYearsInput = 1; // How many years back the user wants to look for a given week in the year
+    var weekRevInput = 0; // The minimum amount of revenue in movies returned to the user
+    // var week = ""; // To store which week in the year the user is looking at, so we can look back 5, 10 years in the past
+    // var dayOfWeek = ""; // To store which day of the week they chose, aka Thurs, Fri, Sat, Sun
     var weekendRange =""; // Range selected by the user for weekend
     var weekendStartDate = ""; // Start date for the weekend selected
     var weekendEndDate = ""; // End date for the weekend selected
@@ -79,10 +79,10 @@ $(document).ready(function() {
 
         // ================ Stores input values referencing WEEKEND.HTML ================== //
         // Stores the user-inputted number of years they want to look back on
-        if ($("#num-years-input").val() != null && $("#num-years-input").val() !== "" && isNaN($("#num-years-input").val()) === false) {
-            numYearsInput = $("#num-years-input").val();
-            $("#num-years-input").val("");
-        };
+        // if ($("#num-years-input").val() != null && $("#num-years-input").val() !== "" && isNaN($("#num-years-input").val()) === false) {
+        //     numYearsInput = $("#num-years-input").val();
+        //     $("#num-years-input").val("");
+        // };
 
         if ($("#weekend-date-range").val() != null && $("#weekend-date-range").val() !== "") {
             weekendRange = $("#weekend-date-range").val(); // Returns value in format of "YYYY-MM-DD to YYY-MM-DD"
@@ -93,8 +93,7 @@ $(document).ready(function() {
         };
 
         // Stores the minimum amount of revenue the user wants to see in movies returned
-        if ($("#weekend-revenue-input").val() != null && $("#weekend-revenue-input").val() !== "" && isNaN($("#weekend-revenue-input").val()) === false) {
-
+        if ($("#weekend-revenue-input").val() != null && $("#weekend-revenue-input").val() !== 0 && isNaN($("#weekend-revenue-input").val()) === false) {
             weekRevInput = $("#weekend-revenue-input").val();
             $("#weekend-revenue-input").val("");
         };
@@ -141,10 +140,12 @@ $(document).ready(function() {
         $.post("/api", {
             movieURI: movieURI,
             whichTab: whichTab,
-            week: week,
-            dayOfWeek: dayOfWeek,
+            // week: week,
+            // dayOfWeek: dayOfWeek,
             weekRevInput: weekRevInput,
-            numYearsInput: numYearsInput,
+            yesNoChecked: yesNoChecked,
+            // numYearsInput: numYearsInput,
+            // country: country,
             genreRevInput: genreRevInput
         }).then(function(response) {
 
@@ -171,66 +172,66 @@ $(document).ready(function() {
             for (var i = 0; i < response.movies.length; i++) {
                 var bodyTrEl = $("<tr>");
                 var bodyThEl = $("<th>");
-                var posterBtn = $("<button>");
-                var posterModal = $("<div>");
-                var posterModalDialog = $("<div>");
-                var posterModalContent = $("<div>");
-                var posterModalHeader = $("<div>");
-                var posterModalBtn = $("<button>");
-                var posterModalBtnSpan = $("<span>");
-                var posterModalBody = $("<div>");
+                // var posterBtn = $("<button>");
+                // var posterModal = $("<div>");
+                // var posterModalDialog = $("<div>");
+                // var posterModalContent = $("<div>");
+                // var posterModalHeader = $("<div>");
+                // var posterModalBtn = $("<button>");
+                // var posterModalBtnSpan = $("<span>");
+                // var posterModalBody = $("<div>");
 
                 bodyThEl.attr("scope", "row");
-                posterBtn.attr("type", "button");
-                posterBtn.attr("class", "btn btn-link posterBtn");
-                posterBtn.attr("data-toggle", "modal");
-                posterBtn.attr("data-target", "#posterModal");
-                posterModal.attr("class", "modal fade");
-                posterModal.attr("tabindex", "-1");
-                posterModal.attr("role", "dialog");
-                posterModal.attr("aria-labelledby", "posterModalLabel");
-                posterModal.attr("aria-hidden", "true");
-                posterModalDialog.attr("class", "modal-dialog");
-                posterModalDialog.attr("role", "document");
-                posterModalContent.attr("class", "modal-content");
-                posterModalHeader.attr("class", "modal-header");
-                posterModalBtn.attr("type", "button");
-                posterModalBtn.attr("class", "close");
-                posterModalBtn.attr("data-dismiss", "modal");
-                posterModalBtn.attr("aria-label", "Close");
-                posterModalBtnSpan.attr("aria-hidden", "true");
-                posterModalBody.attr("class", "modal-body text-center");
+                // posterBtn.attr("type", "button");
+                // posterBtn.attr("class", "btn btn-link posterBtn");
+                // posterBtn.attr("data-toggle", "modal");
+                // posterBtn.attr("data-target", "#posterModal");
+                // posterModal.attr("class", "modal fade");
+                // posterModal.attr("tabindex", "-1");
+                // posterModal.attr("role", "dialog");
+                // posterModal.attr("aria-labelledby", "posterModalLabel");
+                // posterModal.attr("aria-hidden", "true");
+                // posterModalDialog.attr("class", "modal-dialog");
+                // posterModalDialog.attr("role", "document");
+                // posterModalContent.attr("class", "modal-content");
+                // posterModalHeader.attr("class", "modal-header");
+                // posterModalBtn.attr("type", "button");
+                // posterModalBtn.attr("class", "close");
+                // posterModalBtn.attr("data-dismiss", "modal");
+                // posterModalBtn.attr("aria-label", "Close");
+                // posterModalBtnSpan.attr("aria-hidden", "true");
+                // posterModalBody.attr("class", "modal-body text-center");
 
-                var posterURL = "https://www.omdbapi.com/?t=" + response.movies[i].movieTitle + "&apikey=trilogy";
+                // var posterURL = "https://www.omdbapi.com/?t=" + response.movies[i].movieTitle + "&apikey=trilogy";
 
-                console.log(response.movies[i].movieTitle);
                 // Grab the poster for the movie
-                $.ajax({
-                    url: posterURL,
-                    method: "GET"
-                }).then (function(omdbResponse) {
-                    var poster = omdbResponse.Poster;
+                // $.ajax({
+                //     url: posterURL,
+                //     method: "GET"
+                // }).then (function(omdbResponse) {
+                //     var poster = omdbResponse.Poster;
 
-                    var posterImg = $("<img>");
-                    posterImg.attr("class", "posterImg");
-                    posterImg.attr("src", poster);
-                    // posterModalBody.empty();
-                    posterModalBody.append(posterImg);
-                });
+                //     var posterImg = $("<img>");
+                //     posterImg.attr("class", "posterImg");
+                //     posterImg.attr("src", poster);
+                //     // posterModalBody.empty();
+                //     posterModalBody.append(posterImg);
+                // });
 
-                posterBtn.text(response.movies[i].movieTitle);
-                posterModalBtnSpan.text("\u00D7");
+                // posterBtn.text(response.movies[i].movieTitle);
+                // posterModalBtnSpan.text("\u00D7");
                 
                 tBodyEl.append(bodyTrEl);
                 bodyTrEl.append(bodyThEl);
-                bodyThEl.append(posterBtn);
-                bodyThEl.append(posterModal);
-                posterModal.append(posterModalDialog);
-                posterModalDialog.append(posterModalContent);
-                posterModalContent.append(posterModalHeader);
-                posterModalHeader.append(posterModalBtn);
-                posterModalBtn.append(posterModalBtnSpan);
-                posterModalContent.append(posterModalBody);
+                bodyThEl.append(response.movies[i].movieTitle);
+                // bodyThEl.append(posterBtn);
+                // bodyThEl.append(posterModal);
+                // posterModal.append(posterModalDialog);
+                // posterModalDialog.append(posterModalContent);
+                // posterModalContent.append(posterModalHeader);
+                // posterModalHeader.append(posterModalBtn);
+                // posterModalBtn.append(posterModalBtnSpan);
+                // posterModalContent.append(posterModalBody);
 
                 for (var j = 0; j < response.movies[i].responseInfos.length; j++) {
                     var tdEl = $("<td>");
@@ -250,6 +251,15 @@ $(document).ready(function() {
             tableEl.append(tHeadEl);
             tableEl.append(tBodyEl);
             tHeadEl.append(headTrEl);
+
+            if (yesNoChecked === "No") {
+                var notePEl = $("<p>");
+                notePEl.attr("class", "note");
+
+                notePEl.text("* means the movie was released in the weekend chosen");
+
+                responseCardBody.append(notePEl);
+            };
 
         });
 
@@ -291,6 +301,8 @@ $(document).ready(function() {
             // var movieRange = "/movie_theatrical_releases?merge=movie_theatrical_chart_entry,region&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20region_od_name%20like%20(%22" + region + "%%22)";
   
             var movieRange = "/movie_theatrical_chart_entries?merge=country&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
+
+            // var movieRange = "/movie_theatrical_releases?merge=movie_theatrical_chart_entries&filter=chart_date%20between%20%22" + weekendStartDate + "%22%20AND%20%22" + weekendEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22";
 
             movieURI = movieRange;
             whichTab= "movieRange";
@@ -397,10 +409,6 @@ $(document).ready(function() {
             
         };
     });
-
-    // $(function() {
-    //     $("#toggle-yes-no").bootstrapToggle();
-    // });
 
     createDateRange();
     $(".searchBtn").on("click", getUserInput);

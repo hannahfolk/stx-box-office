@@ -3,6 +3,7 @@ const express = require("express");
 const _ = require("lodash");
 const app = express();
 const util = require("util");
+const moment = require("moment");
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + "/public"));
@@ -18,10 +19,12 @@ app.post("/api", (req, res) => {
 
     var movieURI = req.body.movieURI;
     var whichTab = req.body.whichTab;
-    var week = req.body.week;
-    var dayOfWeek = req.body.dayOfWeek;
+    // var week = req.body.week;
+    // var dayOfWeek = req.body.dayOfWeek;
     var weekRevInput = req.body.weekRevInput;
-    var numYearsInput = req.body.numYearsInput;
+    var yesNoChecked = req.body.yesNoChecked;
+    // var numYearsInput = req.body.numYearsInput;
+    // var country = req.body.country;
     var genreRevInput = req.body.genreRevInput;
     var movies = [];
     
@@ -99,8 +102,15 @@ app.post("/api", (req, res) => {
 
         else if (whichTab === "movieRange") {
           axios.get(dataURL, options).then(function(data) {
-            
-            // console.log(data.data);
+ 
+            // var newStartDate = moment().day("Friday").year(2018).week(week).format("YYYY-MM-DD");
+            // var newEndDate = moment(newStartDate).add(2, "day").format("YYYY-MM-DD");
+
+            // var newDataURL = "/movie_theatrical_chart_entries?merge=country&filter=chart_date%20between%20%22" + newStartDate + "%22%20AND%20%22" + newEndDate + "%22%20AND%20movie_chart_type_od_name=%22Daily%22%20AND%20country_od_name%20like%20(%22" + country + "%%22)";
+
+            // axios.get(newDataURL, options).then(function(newData) {
+              // console.log(newData.data);
+            // });
             
             var sorted = _.groupBy(data.data, "movie_display_name");
             var sortedArray = Object.keys(sorted);
@@ -118,7 +128,6 @@ app.post("/api", (req, res) => {
 
               };
 
-              console.log(sorted[sortedArray[i]].length);
               if (sorted[sortedArray[i]].length === 1 || sorted[sortedArray[i]].length === 2) {
                 for (var k = 0; k < 3 - sorted[sortedArray[i]].length; k++) {
                   responseInfos.push("$ ---------");
@@ -129,13 +138,36 @@ app.post("/api", (req, res) => {
               responseInfos.push("$" + sorted[sortedArray[i]][sorted[sortedArray[i]].length - 1].total_revenue);
               responseInfos.push(sorted[sortedArray[i]][0].movie_genre_display_name);
               
-              var movie = {
-                movieTitle: sorted[sortedArray[i]][0].movie_display_name,
-                responseInfos: responseInfos
+              if (yesNoChecked === "No") {
+                if (sorted[sortedArray[i]][0].days_in_release === 1) {
+                  var movie = {
+                    movieTitle: "*" + sorted[sortedArray[i]][0].movie_display_name,
+                    responseInfos: responseInfos
+                  };
+                } else {
+                  movie = {
+                    movieTitle: sorted[sortedArray[i]][0].movie_display_name,
+                    responseInfos: responseInfos
+                  };
+                };
+              } else if (yesNoChecked === "Yes") {
+                movie = {
+                  movieTitle: sorted[sortedArray[i]][0].movie_display_name,
+                  responseInfos: responseInfos
+                };
               };
 
-              movies.push(movie);
-            }
+              if (parseInt(sorted[sortedArray[i]][sorted[sortedArray[i]].length - 1].total_revenue) >= weekRevInput) {
+                if (yesNoChecked === "Yes") {
+                  if (sorted[sortedArray[i]][0].days_in_release === 1) {
+                    movies.push(movie);
+                  };
+                } else if (yesNoChecked === "No") {
+                  movies.push(movie);
+                };
+              };
+              // movies.push(movie);
+            };
 
             var colTitles = ["Movie Name", //"Release Year", 
             "Friday Revenue", "Saturday Revenue", "Sunday Revenue", "Total Weekend Revenue", "Total Revenue", "Genre"];
@@ -144,13 +176,12 @@ app.post("/api", (req, res) => {
               movies: movies,
               colTitles: colTitles
             });
-            
-            // res.json(util.inspect(data.data));
 
           });
         }
 
         // =================== FOR THE GENRE TAB ===================== //
+
         else if (whichTab === "movieGenre") {
           axios.get(dataURL, options).then(function(data) {
 
