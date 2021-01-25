@@ -1,6 +1,6 @@
 # Box Office Data Compiler for STX Entertainment
 
-[![Example 1][./demo.gif]](http://stx-box-office.herokuapp.com/)
+[![Example 1](./demo.gif)](http://stx-box-office.herokuapp.com/)
 
 ## Description
 
