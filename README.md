@@ -2,8 +2,6 @@
 
 ![Example 1](./demo.gif)
 
-===================
-
 ## Description
 
 Full-Stack application developed for STX Entertainment to help their advertising team compile box office data programmatically through the [OPUSData API](https://www.opusdata.com/). Unfortunately, the client did not adopt the application due to the merging of [IMDbPro](https://pro.imdb.com/signup/index.html?rf=google_brand_us_187248834&ref_google_brand_us_187248834&gclid=Cj0KCQjw-_j1BRDkARIsAJcfmTHsItQNaoOife3lt70a-MADUkm_F-EvpWhLADVXoCp2vexDvBDNPsYaAqnrEALw_wcB) and BoxOfficeMojo which included similar features at a lower cost than OPUSData.
