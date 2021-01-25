@@ -29,7 +29,7 @@ Our UCLA Extension instructor, Omar Patel, helped us integrate node.js and herok
 ## Dependencies 
 
 1. Express
-2. Loadash
+2. Lodash
 3. Node
 4. OpusData Token
 
